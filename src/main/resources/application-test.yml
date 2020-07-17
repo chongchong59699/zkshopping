@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    derver: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/db_voter?serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+
+voter:
+  redis:
+    host: 39.105.189.141
+    port: 6380
+    pass: qfjava
+  aes:
+    passkey: dP0ykNOnMdKFaXCIOnXckg==
