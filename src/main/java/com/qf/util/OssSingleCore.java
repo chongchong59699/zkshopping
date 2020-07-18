@@ -20,10 +20,10 @@ public class OssSingleCore {
     private OSS client;
     String endpoint = "https://oss-cn-beijing.aliyuncs.com";
     // 阿里云主账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM账号进行API访问或日常运维，请登录RAM控制台创建RAM账号。
-    String accessKeyId = "LTAI4GGVWnURU9QeGew8dGj5";
-    String accessKeySecret = "Gd2PfiCSpzlv304nHcfrWb66JJUq9T";
+    String accessKeyId = "LTAI4G61M5HtgAJF2W6H6o47";
+    String accessKeySecret = "Li4EFrMGMWRSl5kEdWN5PiJFSJrWzS";
     // 您的回调服务器地址，如http://oss-demo.aliyuncs.com:23450或http://127.0.0.1:9090。
-    String callbackUrl = "http://127.0.0.1:8088";
+    String callbackUrl = "http://127.0.0.1:8080";
     //单例模式的实现 ：懒汉、饿汉
     //饿汉式 实现单例模式
     private static OssSingleCore core=new OssSingleCore();

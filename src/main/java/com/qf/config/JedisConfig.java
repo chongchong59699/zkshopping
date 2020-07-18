@@ -13,11 +13,11 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class JedisConfig {
-    @Value("${voter.redis.host}")
+    @Value("${zkwg.redis.host}")
     private String host;
-    @Value("${voter.redis.port}")
+    @Value("${zkwg.redis.port}")
     private int port;
-    @Value("${voter.redis.pass}")
+    @Value("${zkwg.redis.pass}")
     private String pass;
 
     @Bean
