@@ -15,9 +15,13 @@ public class JedisCore {
     public JedisCore(String host,int port,String pass) {
         JedisPool jedisPool = new JedisPool(host,port);
         jedis=jedisPool.getResource();
-        //jedis.auth(pass);
-        //this.jedis = jedis;
+        if(pass.length()!=0){//如果密码长度不为0  则添加连接密码
+            jedis.auth(pass);
+        }
+
+
     }
+
     //新增string   带过期时间
     public void set(String key,String value,int seconds){
         jedis.setex(key, seconds, value);
