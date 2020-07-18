@@ -52,7 +52,7 @@ public Docket createRestApi() {
                 .title("宅客微购后端接口文档")
                 .description("这个程序写的真好呀")
                 .termsOfServiceUrl("https://www.zkwg.com")
-                .version("1.0").contact(new Contact("CC","https://www.zkwg.com","zkwg@163.com"))
+                .version("1.0").contact(new Contact("第一组","https://www.zkwg.com","zkwg@163.com"))
                 .build();
     }
 
