@@ -16,6 +16,6 @@ zkwg:
     host:
     port: 6379
     #没有密码的话 这里留空即可
-    pass: qfjava
+    pass:
   aes:
     passkey: dP0ykNOnMdKFaXCIOnXckg==
