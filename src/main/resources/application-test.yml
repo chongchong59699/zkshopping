@@ -1,15 +1,20 @@
 spring:
   datasource:
-    derver: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/db_voter?serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://39.99.175.195:3306/zkwg?serverTimezone=Asia/Shanghai？
     username: root
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
-voter:
+
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+#自定义属性配置
+zkwg:
   redis:
-    host: 39.105.189.141
-    port: 6380
+    host: 47.92.157.246
+    port: 6379
+    #没有密码的话 这里留空即可
     pass: qfjava
   aes:
     passkey: dP0ykNOnMdKFaXCIOnXckg==
