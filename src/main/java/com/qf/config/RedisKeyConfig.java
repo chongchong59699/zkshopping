@@ -12,10 +12,25 @@ public class RedisKeyConfig {
     public static final String PHONE_TOKEN="zkwg:phone:";
     //后面追加令牌 值存储用户信息
     public static final String TOKEN_USER="zkwg:token:";
+
     //后面跟手机号 冻结的手机号
     public static final String PHONE_FOR="zkwg:for:phone:";
+
     //后面跟手机号和时间戳
     public static final String PHONE_ERROR="zkwg:error:phone:";
+
+
+    //后面追加手机号 值存储令牌
+    public static final String EMAIL_TOKEN="zkwg:phone:";
+
+    //后面跟手机号 冻结的手机号
+    public static final String EMAIL_FOR="zkwg:for:phone:";
+
+    //后面跟手机号和时间戳
+    public static final String EMAIL_ERROR="zkwg:error:phone:";
+
+
+
 
     //有效期  seconds
     public static final int TOKEN_TIME=30*60; //令牌有效期 单位秒
