@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.qf.dao.UserDao" >
-    <select id="selectUser" resultType="com.qf.pojo.User">
-        select * from user
-        <trim prefix="where" suffixOverrides="and" >
-            <if test="phone!=null">
-                phone = #{account} and
-            </if>
 
-            <if test="email != null">
-                email = #{account}
-            </if>
-        </trim>
+   <!-- 根据用户登录账号查询 -->
+    <select id="selectUser" resultType="com.qf.pojo.User">
+        select * from user where phone=#{account} or email=#{account}
     </select>
 
+    <!-- 根据用户登录账号修改密码 -->
+    <update id="updatePassword">
+        update user set password=#{password} where phone=#{account} or email=#{account}
+    </update>
 </mapper>
