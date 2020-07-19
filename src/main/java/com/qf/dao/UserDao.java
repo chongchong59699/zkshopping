@@ -5,6 +5,7 @@ import com.qf.pojo.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 
@@ -46,6 +47,20 @@ public interface UserDao {
             "#{appointment_id},#{order_id},#{cart_id},#{message_id},#{integrate_id})")
     int insertUser(User user);
 
+    /**
+     * 根据用户手机号或者邮箱查询
+     *
+     * @param account 用户登录账号
+     * @return
+     */
+    User selectUser(@Param("account") String account);
 
-    User selectUser(String account);
+    /**
+     * 根据用户登录账号修改密码
+     *
+     * @param account 用户登录账号
+     * @param password 新密码
+     * @return
+     */
+    int updatePassword(@Param("account") String account, @Param("password") String password);
 }
