@@ -40,6 +40,12 @@ public class TokenInterceptor implements HandlerInterceptor {
 
         //从执行的控制器方法中获取TokenValidate注解对象
         //System.out.println("handler"+handler);
+        if( handler instanceof HandlerMethod){
+        }else {
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write((JSON.toJSONString(R.error("调用接口出现异常"))));
+            return false;
+        }
         TokenValidate tokenValidate = ((HandlerMethod) handler).getMethodAnnotation(TokenValidate.class);
         if (null != tokenValidate) {//方法有TokenValidate注解  需要验证Token
             String token = request.getHeader(SystemConstant.TOKEN_HEADER);
