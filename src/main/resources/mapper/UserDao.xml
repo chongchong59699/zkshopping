@@ -11,4 +11,16 @@
     <update id="updatePassword">
         update user set password=#{password} where phone=#{account} or email=#{account}
     </update>
+	
+	<select id="selectUserById" resultType="com.qf.pojo.User">
+        SELECT * FROM user WHERE id = #{id}
+   </select>
+
+    <select id="selectUserByEmail" resultType="com.qf.pojo.User">
+        SELECT * FROM user WHERE email = #{email}
+   </select>
+
+    <update id="changepwd" >
+        update user set password=#{password} where email = #{email}
+    </update>
 </mapper>

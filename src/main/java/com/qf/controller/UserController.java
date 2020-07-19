@@ -4,18 +4,19 @@ import com.qf.constant.SystemConstant;
 import com.qf.dto.LoginUserDto;
 import com.qf.dto.RegisterUserDto;
 import com.qf.service.UserService;
+import com.qf.util.JedisCore;
 import com.qf.vo.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-/**
- * @author: Sophia
- * @date: 2020/7/18
- */
-@Api(tags = "用户相关接口")
 @RestController
 @RequestMapping("api/user/")
 public class UserController {
@@ -79,4 +80,28 @@ public class UserController {
     public R findPassword(LoginUserDto loginUserDto){
         return userService.findPassword(loginUserDto);
     }
+	
+	/**
+     * 查询用户通过用户编号
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "查询用户通过用户编号", notes = "查询用户通过用户编号")
+    @PostMapping("selectUserById")
+    public R selectUserById(int id) {
+        return R.ok(userService.selectUserById(id));
+    }
+	
+	/**
+     * 修改密码
+     * @param email
+     * @param password
+     * @return
+     */
+    @ApiOperation(value = "修改密码", notes = "通过邮箱修改密码")
+    @PostMapping("changePassword/{password}")
+    public R changePassword(String email, @PathVariable String password) {
+        return R.ok(userService.updatePassword(email, password));
+    }
+	
 }
