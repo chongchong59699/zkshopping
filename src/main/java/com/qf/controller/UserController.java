@@ -1,14 +1,15 @@
 package com.qf.controller;
 
+import com.qf.constant.SystemConstant;
 import com.qf.dto.LoginUserDto;
 import com.qf.dto.RegisterUserDto;
 import com.qf.service.UserService;
 import com.qf.vo.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 
 /**
  * @author: Sophia
@@ -49,15 +50,33 @@ public class UserController {
      * @param registerUserDto 用户注册信息
      * @return
      */
+    @ApiOperation(value = "用户注册", notes = "用户注册")
     @PostMapping("userRegister")
     public R userRegister(@RequestBody RegisterUserDto registerUserDto){
         return userService.addUser(registerUserDto);
     }
 
+    /**
+     * 用户登录
+     *
+     * @param loginUserDto 用户登录的账号密码
+     * @return
+     */
+    @ApiOperation(value = "用户登录", notes = "用户登录")
     @PostMapping("userLogin")
-    public R userLogin(@RequestBody LoginUserDto loginUserDto){
-        System.out.println(loginUserDto.toString());
-
+    public R userLogin(LoginUserDto loginUserDto){
         return userService.userLogin(loginUserDto);
+    }
+
+    /**
+     * 忘记密码，用来找回密码
+     *
+     * @param loginUserDto 用户登录信息
+     * @return
+     */
+    @ApiOperation(value = "找回密码", notes = "找回密码")
+    @PostMapping("findPassword")
+    public R findPassword(LoginUserDto loginUserDto){
+        return userService.findPassword(loginUserDto);
     }
 }

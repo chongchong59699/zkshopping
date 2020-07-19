@@ -39,4 +39,12 @@ public interface UserService {
      * @return
      */
     R userLogin(LoginUserDto loginUserDto);
+
+    /**
+     * 忘记密码，用来找回密码
+     *
+     * @param loginUserDto 用户登录信息
+     * @return
+     */
+    R findPassword(LoginUserDto loginUserDto);
 }
