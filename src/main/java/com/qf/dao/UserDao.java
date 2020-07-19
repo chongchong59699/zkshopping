@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
-
+import java.util.List;
 /**
  * @author: Sophia
  * @date: 2020/7/18
@@ -63,4 +63,8 @@ public interface UserDao {
      * @return
      */
     int updatePassword(@Param("account") String account, @Param("password") String password);
+	
+	List<User> selectUserById(int id);
+    int changepwd(@Param("email") String email, @Param("password") String password);
+    List<User> selectUserByEmail(String email);
 }
