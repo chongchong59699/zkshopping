@@ -21,13 +21,13 @@ public class RedisKeyConfig {
 
 
     //后面追加手机号 值存储令牌
-    public static final String EMAIL_TOKEN="zkwg:phone:";
+    public static final String EMAIL_TOKEN="zkwg:email:";
 
     //后面跟手机号 冻结的手机号
-    public static final String EMAIL_FOR="zkwg:for:phone:";
+    public static final String EMAIL_FOR="zkwg:for:email:";
 
     //后面跟手机号和时间戳
-    public static final String EMAIL_ERROR="zkwg:error:phone:";
+    public static final String EMAIL_ERROR="zkwg:error:email:";
 
 
 
