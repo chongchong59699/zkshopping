@@ -1,0 +1,9 @@
+server:
+  port: 8080
+spring:
+  profiles:
+    active: prod
+  servlet:
+    multipart:
+      max-file-size: 10MB #设置单个上传文件的大小
+      max-request-size: 100MB #设置请求上传的总大小

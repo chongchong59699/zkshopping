@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qf.dao.ReceverAddressInfoDao">
+    <select id="selectByUid" resultType="com.qf.pojo.ReceverAddressInfo">
+        SELECT * FROM recever_address_info,USER WHERE recever_address_info.user_id =user.id
+           AND user_id  = #{id}
+    </select>
+
+    <insert id="insert">
+     insert into recever_address_info (province,city,detailed_address,zip_code,recever_name,phone,user_id) values (#{province},#{city},#{detailed_address},#{zip_code},#{recever_name},{phone},#{user_id})
+    </insert>
+</mapper>
