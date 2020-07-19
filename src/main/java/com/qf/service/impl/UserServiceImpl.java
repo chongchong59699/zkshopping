@@ -203,7 +203,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public R selectUserById(int id) {
-        return R.ok(userdao.selectUserById(id));
+        return R.ok(userDao.selectUserById(id));
     }
 
     /**
@@ -216,11 +216,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public R updatePassword(String email, String password) {
         System.out.println(email);
-        List<User> users = userdao.selectUserByEmail(email);
-        System.out.println(users);
-        if (users != null) {
+        User user = userDao.selectUserByEmail(email);
+        System.out.println(user);
+        if (user != null) {
             MailUtils.sendMail("957162996@qq.com", "你好，这是一封测试邮件，无需回复。", "测试邮件随机生成的验证码是：" + MailUtils.getValidateCode(6));
-            int changepwd = userdao.changepwd(email, password);
+            int changepwd = userDao.changepwd(email, password);
             return R.ok("修改密码成功");
         }
         return R.error("请重新登录");
