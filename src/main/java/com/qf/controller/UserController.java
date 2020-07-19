@@ -98,7 +98,7 @@ public class UserController {
      * @param password
      * @return
      */
-    @ApiOperation(value = "修改密码", notes = "通过邮箱修改密码")
+    @ApiOperation(value = "修改密码-任晓雨", notes = "通过邮箱修改密码")
     @PostMapping("changePassword/{password}")
     public R changePassword(String email, @PathVariable String password) {
         return R.ok(userService.updatePassword(email, password));
