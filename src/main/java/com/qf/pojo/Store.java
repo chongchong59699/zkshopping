@@ -63,5 +63,6 @@ public class Store implements Serializable {
     private Integer lavel;
 
     private static final long serialVersionUID = 1L;
+
 }
 
