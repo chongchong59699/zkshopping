@@ -31,8 +31,8 @@ public interface UserDao {
      * @param email 邮箱
      * @return
      */
-    @Select("select * from user where email = #{email}")
-    User selectUserByEmail(@Param("email") String email);
+//    @Select("select * from user where email = #{email}")
+//    User selectUserByEmail(@Param("email") String email);
 
     /**
      * 添加用户
@@ -66,5 +66,5 @@ public interface UserDao {
 	
 	List<User> selectUserById(int id);
     int changepwd(@Param("email") String email, @Param("password") String password);
-    List<User> selectUserByEmail(String email);
+     User selectUserByEmail(String email);
 }
