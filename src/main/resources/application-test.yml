@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://39.99.175.195:3306/zkwg?serverTimezone=Asia/Shanghai？
+    url: jdbc:mysql://39.99.175.195:3306/zkwg?serverTimezone=Asia/Shanghai
     username: root
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
