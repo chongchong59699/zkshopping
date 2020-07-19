@@ -36,7 +36,7 @@ public class OssSingleCore {
     //创建存储空间
     public void createBucket(String name){
         // 创建CreateBucketRequest对象。
-        CreateBucketRequest createBucketRequest = new CreateBucketRequest("<yourBucketName>");
+        CreateBucketRequest createBucketRequest = new CreateBucketRequest(name);
         // 创建存储空间。
         client.createBucket(createBucketRequest);
     }
