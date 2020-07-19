@@ -3,7 +3,11 @@ package com.qf.service;
 import com.qf.dto.LoginUserDto;
 import com.qf.dto.RegisterUserDto;
 import com.qf.vo.R;
-
+import org.springframework.stereotype.Repository;
+import com.qf.pojo.ReceverAddressInfo;
+import com.qf.pojo.User;
+import com.qf.pojo.ReceverAddressInfo;
+import com.qf.pojo.User;
 /**
  * @author: Sophia
  * @date: 2020/7/18
@@ -47,4 +51,7 @@ public interface UserService {
      * @return
      */
     R findPassword(LoginUserDto loginUserDto);
+	
+	R selectUserById(int id);
+    R updatePassword(String email,String password);
 }
