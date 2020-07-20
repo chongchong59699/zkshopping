@@ -9,10 +9,7 @@ import com.qf.vo.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -98,7 +95,7 @@ public class UserController {
      * @param password
      * @return
      */
-    @ApiOperation(value = "修改密码", notes = "通过邮箱修改密码")
+    @ApiOperation(value = "修改密码-任晓雨", notes = "通过邮箱修改密码")
     @PostMapping("changePassword/{password}")
     public R changePassword(String email, @PathVariable String password) {
         return R.ok(userService.updatePassword(email, password));

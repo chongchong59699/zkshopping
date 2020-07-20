@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qf.dao.ShopDao">
+    <select id="queryAll" resultType="com.qf.dto.ShopDto">
+        SELECT url, goods.`name`, price, store_name, logo_img_url, wangwang, third_level_type.`name` AS third_level_name
+        FROM goods
+                     INNER JOIN imgs
+                ON goods.`img_id` = imgs.`id`
+                     INNER JOIN store
+                ON goods.`store_id` = store.`store_id`
+                     INNER JOIN third_level_type
+                ON goods.`third_level_id` = third_level_type.`id`
+    </select>
+
+    <select id="queryById" resultType="com.qf.dto.ShopDto">
+        SELECT url, goods.`name`, price, store_name, logo_img_url, wangwang, third_level_type.`name` AS third_level_name
+        FROM goods
+                     INNER JOIN imgs
+                ON goods.`img_id` = imgs.`id`
+                     INNER JOIN store
+                ON goods.`store_id` = store.`store_id`
+                     INNER JOIN third_level_type
+                ON goods.`third_level_id` = third_level_type.`id`
+        WHERE goods.`id` = #{id,jdbcType=INTEGER}
+    </select>
+</mapper>
