@@ -42,7 +42,7 @@
     <sql id="JOIN_TABLE">
         LEFT JOIN third_level_type AS lev3
                 ON lev3.`id` = g.`third_level_id`
-                        LEFT JOIN second_level_type AS lev2 ON lev2.`id` = lev3.`secone_level_id`
+                        LEFT JOIN second_level_type AS lev2 ON lev2.`id` = lev3.`second_level_id`
                         LEFT JOIN first_level_type AS lev1 ON lev1.`id` = lev2.`first_level_id`
     </sql>
 
@@ -67,7 +67,7 @@
              , lev1.`id`   AS 'lev1_id'
              , lev1.`name` AS 'lev1_name'
         FROM third_level_type AS lev3
-                     LEFT JOIN second_level_type AS lev2 ON lev2.`id` = lev3.`secone_level_id`
+                     LEFT JOIN second_level_type AS lev2 ON lev2.`id` = lev3.`second_level_id`
                      LEFT JOIN first_level_type AS lev1 ON lev1.`id` = lev2.`first_level_id`
         ORDER BY lev1.`id`, lev2.`id`, lev3.`id`
     </select>
