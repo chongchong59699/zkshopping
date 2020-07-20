@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +34,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        //System.out.println(handler);
         if (request.getMethod().equals(RequestMethod.OPTIONS.name())) {
             setHeader(request,response);
             return true;
@@ -40,29 +42,35 @@ public class TokenInterceptor implements HandlerInterceptor {
 
         //从执行的控制器方法中获取TokenValidate注解对象
         //System.out.println("handler"+handler);
+
         if( handler instanceof HandlerMethod){
-        }else {
+            TokenValidate tokenValidate = ((HandlerMethod) handler).getMethodAnnotation(TokenValidate.class);
+            if (null != tokenValidate) {//方法有TokenValidate注解  需要验证Token
+                String token = request.getHeader(SystemConstant.TOKEN_HEADER);
+                //System.out.println(token);
+                //校验token合法性
+                if (!StringUtil.checkEmpty(token)) {
+                    if (jedisCore.checkKey(RedisKeyConfig.TOKEN_USER + token)) { //如果redis里有这个token对应的用户信息 就放行
+                        return true;
+                    }
+                }
+                //验证失败的响应信息
+                response.setContentType("application/json;charset=UTF-8");
+                response.getWriter().write((JSON.toJSONString(R.error("权限校验不通过，请重新登陆。"))));
+                return false;
+            } else {//方法没有TokenValadate注解 无需验证token的接口走这里
+                return true;
+            }
+        }else if (handler instanceof ResourceHttpRequestHandler){
+            //静态资源放行
+            return true;
+        }
+        else {
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write((JSON.toJSONString(R.error("调用接口出现异常"))));
             return false;
         }
-        TokenValidate tokenValidate = ((HandlerMethod) handler).getMethodAnnotation(TokenValidate.class);
-        if (null != tokenValidate) {//方法有TokenValidate注解  需要验证Token
-            String token = request.getHeader(SystemConstant.TOKEN_HEADER);
-            //System.out.println(token);
-            //校验token合法性
-            if (!StringUtil.checkEmpty(token)) {
-                if (jedisCore.checkKey(RedisKeyConfig.TOKEN_USER + token)) { //如果redis里有这个token对应的用户信息 就放行
-                    return true;
-                }
-            }
-            //验证失败的响应信息
-            response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write((JSON.toJSONString(R.error("权限校验不通过，请重新登陆。"))));
-            return false;
-        } else {//方法没有TokenValadate注解 无需验证token的接口走这里
-            return true;
-        }
+
     }
 
     /**

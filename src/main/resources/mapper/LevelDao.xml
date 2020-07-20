@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qf.dao.LevelDao">
+    <resultMap id="queryLavels" type="com.qf.dto.SecondLevelDto">
+        <id column="id" property="second_level_id"/>
+
+        <result column="second_type_name" property="second_level_name"/>
+        <collection property="list" ofType="com.qf.dto.ThirdLevelDto">
+            <id column="id" property="third_level_id"/>
+            <result column="third_type_name" property="third_level_name"/>
+        </collection>
+    </resultMap>
+
+    <select id="queryLevel" resultMap="queryLavels">
+        SELECT
+               third_level_type.`id`,
+               second_level_type.`name` AS second_type_name,
+               third_level_type.`name`  AS third_type_name
+        FROM second_level_type
+                     LEFT JOIN third_level_type
+                ON third_level_type.`second_level_id` = second_level_type.`id`
+    </select>
+</mapper>

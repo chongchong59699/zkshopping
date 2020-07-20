@@ -119,6 +119,24 @@ public class UserOrder implements Serializable {
     @ApiModelProperty(value = "1送货上门 2快递包邮")
     private Integer send_method;
 
+    /**
+     * 关联的收货地址编号
+     */
+    @ApiModelProperty(value = "关联的收货地址编号")
+    private Integer receiver_addr_id;
+
+    /**
+     * 商品数量
+     */
+    @ApiModelProperty(value = "商品数量")
+    private Integer goods_num;
+
+    /**
+     * 商品总价
+     */
+    @ApiModelProperty(value = "商品总价")
+    private Double total_fee;
+
     private static final long serialVersionUID = 1L;
 }
 

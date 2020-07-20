@@ -1,8 +1,8 @@
 package com.qf.dao;
 
-import com.qf.dto.GoodsInfoDto;
-import com.qf.dto.GoodsTypeDto;
-import org.apache.ibatis.annotations.Select;
+import com.qf.dto.Lev1TypeDto;
+import com.qf.dto.Lev2TypeDto;
+import com.qf.dto.Lev3TypeDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,34 +16,13 @@ import java.util.List;
 @Repository
 public interface GoodsInfoDao {
 
-    @Select("SELECT lev1.`name` AS 'lev1_name', lev2.`name` AS 'lev2_name', lev3.`name` AS 'lev3_name'" +
-            " FROM first_level_type AS lev1" +
-            " LEFT JOIN second_level_type AS lev2 ON lev1.`id`=lev2.`first_level_id`" +
-            " LEFT JOIN third_level_type AS lev3 ON lev2.`id`=lev3.`secone_level_id`" +
-            " ORDER BY lev1.`id`")
-    List<GoodsTypeDto> queryGoodsType();
+    List<Lev1TypeDto> queryAllGoods();
 
-    @Select("SELECT g.`id`, g.`goods_code`, g.`img_id`, g.`name`, g.`slogan`, g.`price`, g.`discount`, g.`score`, lev1.`name` AS 'level_name'" +
-            " FROM goods AS g" +
-            " LEFT JOIN third_level_type AS lev3 ON g.`third_level_id`=lev3.`id`" +
-            " LEFT JOIN second_level_type AS lev2 ON lev3.`secone_level_id`=lev2.`id`" +
-            " LEFT JOIN first_level_type AS lev1 ON lev2.`first_level_id`=lev1.`id`" +
-            " ORDER BY g.`id`")
-    List<GoodsInfoDto> queryGoodsByFirstLevel();
+    List<Lev1TypeDto> queryGoodsType();
 
-    @Select("SELECT g.`id`, g.`goods_code`, g.`img_id`, g.`name`, g.`slogan`, g.`price`, g.`discount`, g.`score`, lev2.`name` AS 'level_name'" +
-            " FROM goods AS g" +
-            " LEFT JOIN third_level_type AS lev3 ON g.`third_level_id`=lev3.`id`" +
-            " LEFT JOIN second_level_type AS lev2 ON lev3.`secone_level_id`=lev2.`id`" +
-            " LEFT JOIN first_level_type AS lev1 ON lev2.`first_level_id`=lev1.`id`" +
-            " ORDER BY g.`id`")
-    List<GoodsInfoDto> queryGoodsBySecondLevel();
+    List<Lev1TypeDto> queryGoodsByFirstLevel();
 
-    @Select("SELECT g.`id`, g.`goods_code`, g.`img_id`, g.`name`, g.`slogan`, g.`price`, g.`discount`, g.`score`, lev3.`name` AS 'level_name'" +
-            " FROM goods AS g" +
-            " LEFT JOIN third_level_type AS lev3 ON g.`third_level_id`=lev3.`id`" +
-            " LEFT JOIN second_level_type AS lev2 ON lev3.`secone_level_id`=lev2.`id`" +
-            " LEFT JOIN first_level_type AS lev1 ON lev2.`first_level_id`=lev1.`id`" +
-            " ORDER BY g.`id`")
-    List<GoodsInfoDto> queryGoodsByThirdLevel();
+    List<Lev2TypeDto> queryGoodsBySecondLevel();
+
+    List<Lev3TypeDto> queryGoodsByThirdLevel();
 }

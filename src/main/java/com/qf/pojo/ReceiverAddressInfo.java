@@ -5,9 +5,9 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import lombok.Data;
 
-@ApiModel(value = "com-qf-pojo-ReceverAddressInfo")
+@ApiModel(value = "com-qf-pojo-ReceiverAddressInfo")
 @Data
-public class ReceverAddressInfo implements Serializable {
+public class ReceiverAddressInfo implements Serializable {
     /**
      *
      */
@@ -42,7 +42,7 @@ public class ReceverAddressInfo implements Serializable {
      * 收货人姓名
      */
     @ApiModelProperty(value = "收货人姓名")
-    private String recever_name;
+    private String receiver_name;
 
     /**
      * 手机号
