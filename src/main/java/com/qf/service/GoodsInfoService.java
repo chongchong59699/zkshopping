@@ -10,6 +10,8 @@ import com.qf.vo.R;
  */
 public interface GoodsInfoService {
 
+    R queryAllGoods();
+
     R queryTypeLevel();
 
     R queryGoodsByFirstLevel();

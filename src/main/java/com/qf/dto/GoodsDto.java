@@ -3,39 +3,23 @@ package com.qf.dto;
 import lombok.Data;
 
 /**
- * @Class: ProductInfoDto
+ * @Class: GoodsDto
  * @Description:
  * @Author: Jerry(姜源)
- * @Create: 2020/07/18 16:14
+ * @Create: 2020/07/20 10:11
  */
 @Data
-public class GoodsInfoDto {
-
-    /**
-     * 三级 or 二级 or 一级分类名
-     */
-    private String level_name;
-
-    /**
-     * 以下为 goods 封装属性信息
-     */
+public class GoodsDto {
     private Integer id;
-
     private String goods_code;
-
     private String img_id;
-
     private String name;
-
-    private Double price;
-
-    private Double discount;
-
     private String slogan;
-
+    private Double price;
+    private Double discount;
     private Integer score;
-
     private String size;
-
     private String color;
+
+    private Lev3TypeDto lev3TypeDto;
 }

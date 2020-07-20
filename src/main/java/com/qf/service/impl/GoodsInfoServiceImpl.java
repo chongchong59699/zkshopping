@@ -2,8 +2,7 @@ package com.qf.service.impl;
 
 import com.qf.constant.SystemConstant;
 import com.qf.dao.GoodsInfoDao;
-import com.qf.dto.GoodsInfoDto;
-import com.qf.dto.GoodsTypeDto;
+import com.qf.dto.*;
 import com.qf.service.GoodsInfoService;
 import com.qf.vo.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +23,28 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
     private GoodsInfoDao dao;
 
     /**
+     * 查询包含所有分类的商品
+     * @return
+     */
+    @Override
+    public R queryAllGoods() {
+        List<Lev1TypeDto> allGoodsList = dao.queryAllGoods();
+        if (allGoodsList.size() > 0) {
+            return R.ok(allGoodsList);
+        }
+        return R.error(SystemConstant.QUERY_NULL);
+    }
+
+    /**
      * 查询三级分类信息
      * @return
      */
     @Override
     public R queryTypeLevel() {
-        List<GoodsTypeDto> goodsTypeDtoList = dao.queryGoodsType();
-        if (goodsTypeDtoList.size() > 0) {
-            return R.ok(goodsTypeDtoList);
+        List<Lev1TypeDto> levelsList = dao.queryGoodsType();
+        if (levelsList.size() > 0) {
+            System.out.println("levelsList = " + levelsList);
+            return R.ok(levelsList);
         }
         return R.error(SystemConstant.QUERY_NULL);
     }
@@ -42,9 +55,9 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
      */
     @Override
     public R queryGoodsByFirstLevel() {
-        List<GoodsInfoDto> productInfoDtoList = dao.queryGoodsByFirstLevel();
-        if (productInfoDtoList.size() > 0) {
-            return R.ok(productInfoDtoList);
+        List<Lev1TypeDto> lev1TypeDtoList = dao.queryGoodsByFirstLevel();
+        if (lev1TypeDtoList.size() > 0) {
+            return R.ok(lev1TypeDtoList);
         }
         return R.error(SystemConstant.QUERY_NULL);
     }
@@ -55,9 +68,9 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
      */
     @Override
     public R queryGoodsBySecondLevel() {
-        List<GoodsInfoDto> productInfoDtoList = dao.queryGoodsBySecondLevel();
-        if (productInfoDtoList.size() > 0) {
-            return R.ok(productInfoDtoList);
+        List<Lev2TypeDto> lev2TypeDtoList = dao.queryGoodsBySecondLevel();
+        if (lev2TypeDtoList.size() > 0) {
+            return R.ok(lev2TypeDtoList);
         }
         return R.error(SystemConstant.QUERY_NULL);
     }
@@ -68,9 +81,9 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
      */
     @Override
     public R queryGoodsByThirdLevel() {
-        List<GoodsInfoDto> productInfoDtoList = dao.queryGoodsByThirdLevel();
-        if (productInfoDtoList.size() > 0) {
-            return R.ok(productInfoDtoList);
+        List<Lev3TypeDto> lev3TypeDtoList = dao.queryGoodsByThirdLevel();
+        if (lev3TypeDtoList.size() > 0) {
+            return R.ok(lev3TypeDtoList);
         }
         return R.error(SystemConstant.QUERY_NULL);
     }
