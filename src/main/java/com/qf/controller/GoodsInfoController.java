@@ -23,6 +23,12 @@ public class GoodsInfoController {
     @Autowired
     private GoodsInfoService service;
 
+    @ApiOperation(value = "查询所有商品", notes = "查询所有商品，包含一级、二级、三级分类")
+    @GetMapping("/allGoods")
+    public R queryAllGoods() {
+        return service.queryAllGoods();
+    }
+
     /**
      * 主导航商品分类信息
      * @return

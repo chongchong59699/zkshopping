@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qf.dao.GoodsInfoDao">
+    <resultMap id="BaseResultMap" type="com.qf.dto.Lev1TypeDto">
+        <id column="lev1_id" property="id"/>
+        <result column="lev1_name" property="name"/>
+        <collection property="lev2TypeDtoList" ofType="com.qf.dto.Lev2TypeDto">
+            <id column="lev2_id" property="id"/>
+            <result column="lev2_name" property="name"/>
+            <collection property="lev3TypeDtoList" ofType="com.qf.dto.Lev3TypeDto">
+                <id column="lev3_id" property="id"/>
+                <result column="lev3_name" property="name"/>
+                <collection property="goodsDtoList" ofType="com.qf.dto.GoodsDto">
+                    <id column="id" property="id"/>
+                    <result column="goods_code" property="goods_code"/>
+                    <result column="img_id" property="img_id"/>
+                    <result column="name" property="name"/>
+                    <result column="slogan" property="slogan"/>
+                    <result column="price" property="price"/>
+                    <result column="discount" property="discount"/>
+                    <result column="score" property="score"/>
+                    <result column="size" property="size"/>
+                    <result column="color" property="color"/>
+                </collection>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <sql id="SELECT_GOODS_FIELDS">
+        SELECT g.id
+             , g.goods_code
+             , g.img_id
+             , g.name
+             , g.slogan
+             , g.price
+             , g.discount
+             , g.score
+             , g.size
+             , g.color
+    </sql>
+
+    <sql id="JOIN_TABLE">
+        LEFT JOIN third_level_type AS lev3
+                ON lev3.`id` = g.`third_level_id`
+                        LEFT JOIN second_level_type AS lev2 ON lev2.`id` = lev3.`secone_level_id`
+                        LEFT JOIN first_level_type AS lev1 ON lev1.`id` = lev2.`first_level_id`
+    </sql>
+
+    <select id="queryAllGoods" resultMap="BaseResultMap">
+        <include refid="SELECT_GOODS_FIELDS"/>
+        , lev3.id   AS lev3_id
+        , lev3.name AS lev3_name
+        , lev2.id   AS lev2_id
+        , lev2.name AS lev2_name
+        , lev1.id   AS lev1_id
+        , lev1.name AS lev1_name
+                FROM goods AS g
+        <include refid="JOIN_TABLE"/>
+        ORDER BY lev1.`id`, lev2.`id`, lev3.`id`, g.`id`
+    </select>
+
+    <select id="queryGoodsType" resultMap="BaseResultMap">
+        SELECT lev3.`id`   AS 'lev3_id'
+             , lev3.`name` AS 'lev3_name'
+             , lev2.`id`   AS 'lev2_id'
+             , lev2.`name` AS 'lev2_name'
+             , lev1.`id`   AS 'lev1_id'
+             , lev1.`name` AS 'lev1_name'
+        FROM third_level_type AS lev3
+                     LEFT JOIN second_level_type AS lev2 ON lev2.`id` = lev3.`secone_level_id`
+                     LEFT JOIN first_level_type AS lev1 ON lev1.`id` = lev2.`first_level_id`
+        ORDER BY lev1.`id`, lev2.`id`, lev3.`id`
+    </select>
+
+    <select id="queryGoodsByFirstLevel" resultMap="BaseResultMap">
+        <include refid="SELECT_GOODS_FIELDS"/>
+        , lev1.`id`   AS 'lev1_id'
+        , lev1.`name` AS 'lev1_name'
+                FROM goods AS g
+        <include refid="JOIN_TABLE"/>
+        ORDER BY lev1.`id`, g.`id`
+    </select>
+    <select id="queryGoodsBySecondLevel" resultMap="BaseResultMap">
+        <include refid="SELECT_GOODS_FIELDS"/>
+        , lev2.`id`   AS 'lev2_id'
+        , lev2.`name` AS 'lev2_name'
+                FROM goods AS g
+        <include refid="JOIN_TABLE"/>
+        ORDER BY lev2.`id`, g.`id`
+    </select>
+    <select id="queryGoodsByThirdLevel" resultMap="BaseResultMap">
+        <include refid="SELECT_GOODS_FIELDS"/>
+        , lev3.`id`   AS 'lev3_id'
+        , lev3.`name` AS 'lev3_name'
+                FROM goods AS g
+        <include refid="JOIN_TABLE"/>
+        ORDER BY lev3.`id`, g.`id`
+    </select>
+</mapper>
