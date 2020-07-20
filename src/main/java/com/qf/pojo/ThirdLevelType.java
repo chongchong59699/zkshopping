@@ -24,7 +24,7 @@ public class ThirdLevelType implements Serializable {
      * 二级分类编号
      */
     @ApiModelProperty(value = "二级分类编号")
-    private Integer secone_level_id;
+    private Integer sceond_level_id;
 
     private static final long serialVersionUID = 1L;
 }

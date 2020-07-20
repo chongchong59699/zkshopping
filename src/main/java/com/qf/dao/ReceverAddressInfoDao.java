@@ -1,16 +1,17 @@
 package com.qf.dao;
 
-import com.qf.pojo.ReceverAddressInfo;
+import com.qf.pojo.ReceiverAddressInfo;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public interface ReceverAddressInfoDao {
-    List<ReceverAddressInfo> selectByUid(int id);
+    List<ReceiverAddressInfo> selectByUid(int id);
 
-    int insert(ReceverAddressInfo receverAddressInfo);
+    int insert(ReceiverAddressInfo receverAddressInfo);
 
-    int update(ReceverAddressInfo receverAddressInfo);
+    int update(ReceiverAddressInfo receverAddressInfo);
+
     int delete(int id);
 }
