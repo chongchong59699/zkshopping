@@ -1,11 +1,11 @@
 package com.qf.service;
 
-import com.qf.pojo.ReceverAddressInfo;
+import com.qf.pojo.ReceiverAddressInfo;
 import com.qf.vo.R;
 
 public interface ReceverAddressInfoService {
     R selectByUid(int uid);
-    R insert(ReceverAddressInfo receverAddressInfo);
-    R updateAddress(ReceverAddressInfo receverAddressInfo);
+    R insert(ReceiverAddressInfo receverAddressInfo);
+    R updateAddress(ReceiverAddressInfo receverAddressInfo);
     R delete(int id);
 }
