@@ -1,15 +1,9 @@
 package com.qf.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageHelper;
-import com.qf.config.RedisKeyConfig;
 import com.qf.dao.ReceverAddressInfoDao;
-import com.qf.pojo.ReceverAddressInfo;
-import com.qf.pojo.User;
+import com.qf.pojo.ReceiverAddressInfo;
 import com.qf.service.ReceverAddressInfoService;
-import com.qf.util.JedisCore;
 import com.qf.vo.R;
-import jdk.nashorn.internal.ir.CallNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +18,13 @@ public class ReceverAddressInfoServiceImpl implements ReceverAddressInfoService 
     }
 
     @Override
-    public R insert(ReceverAddressInfo receverAddressInfo) {
-        return R.ok(dao.insert(receverAddressInfo));
+    public R insert(ReceiverAddressInfo receiverAddressInfo) {
+        return R.ok(dao.insert(receiverAddressInfo));
     }
 
     @Override
-    public R updateAddress(ReceverAddressInfo receverAddressInfo) {
-        return R.ok(dao.update(receverAddressInfo));
+    public R updateAddress(ReceiverAddressInfo receiverAddressInfo) {
+        return R.ok(dao.update(receiverAddressInfo));
     }
 
     @Override

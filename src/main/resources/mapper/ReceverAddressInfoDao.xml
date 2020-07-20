@@ -3,20 +3,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.qf.dao.ReceverAddressInfoDao">
-    <select id="selectByUid" resultType="com.qf.pojo.ReceverAddressInfo">
-        SELECT * FROM recever_address_info,USER WHERE recever_address_info.user_id =user.id
+    <select id="selectByUid" resultType="com.qf.pojo.ReceiverAddressInfo">
+        SELECT * FROM receiver_address_info,`user` WHERE receiver_address_info.user_id =user.id
            AND user_id  = #{uid}
     </select>
 
     <insert id="insert">
-     insert into recever_address_info (province,city,detailed_address,zip_code,recever_name,phone,user_id) values (#{province},#{city},#{detailed_address},#{zip_code},#{recever_name},{phone},#{user_id})
+     insert into receiver_address_info (province,city,detailed_address,zip_code,receiver_name,phone,user_id) values (#{province},#{city},#{detailed_address},#{zip_code},#{receiver_name}, #{phone},#{user_id})
     </insert>
 
     <update id="update">
-        UPDATE recever_address_info SET province = #{province},city=#{city},detailed_address=#{detailed_address},zip_code=#{zip_code},recever_name=#{recever_name},phone=#{phone} WHERE user_id =#{user_id}
+        UPDATE receiver_address_info SET province = #{province},city=#{city},detailed_address=#{detailed_address},zip_code=#{zip_code},receiver_name=#{receiver_name},phone=#{phone} WHERE user_id =#{user_id}
     </update>
 
-    <delete id="delete" >
-        delete from recever_address_info where id = #{id}
+    <delete id="delete">
+        delete from receiver_address_info where id = #{id}
     </delete>
 </mapper>
