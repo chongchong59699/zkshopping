@@ -5,9 +5,10 @@ import com.qf.pojo.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
-
+import java.util.List;
 /**
  * @author: Sophia
  * @date: 2020/7/18
@@ -30,8 +31,8 @@ public interface UserDao {
      * @param email 邮箱
      * @return
      */
-    @Select("select * from user where email = #{email}")
-    User selectUserByEmail(@Param("email") String email);
+//    @Select("select * from user where email = #{email}")
+//    User selectUserByEmail(@Param("email") String email);
 
     /**
      * 添加用户
@@ -46,6 +47,24 @@ public interface UserDao {
             "#{appointment_id},#{order_id},#{cart_id},#{message_id},#{integrate_id})")
     int insertUser(User user);
 
+    /**
+     * 根据用户手机号或者邮箱查询
+     *
+     * @param account 用户登录账号
+     * @return
+     */
+    User selectUser(@Param("account") String account);
 
-    User selectUser(String account);
+    /**
+     * 根据用户登录账号修改密码
+     *
+     * @param account 用户登录账号
+     * @param password 新密码
+     * @return
+     */
+    int updatePassword(@Param("account") String account, @Param("password") String password);
+	
+	List<User> selectUserById(int id);
+    int changepwd(@Param("email") String email, @Param("password") String password);
+     User selectUserByEmail(String email);
 }

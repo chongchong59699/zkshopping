@@ -117,9 +117,9 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public R userLogin(LoginUserDto loginUserDto) {
-        System.out.println(loginUserDto.getPhone());
 
-        System.out.println(JudgeUtil.getPhoneOrEmail(loginUserDto).get("account"));
+        // 获取用户登录的账号
+        String account = JudgeUtil.getPhoneOrEmail(loginUserDto).get("account");
 
         // 校验该用户是否被冻结
         if (jedisCore.checkKey(JudgeUtil.getPhoneOrEmail(loginUserDto).get("FOR")
@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
 
             return R.error("您的账号已经登录啦");
         } else {
-            User user = userDao.selectUser(JudgeUtil.getPhoneOrEmail(loginUserDto).get("account"));
+            User user = userDao.selectUser(account);
             // 登录标记
             boolean isError = true;
 
@@ -176,5 +176,54 @@ public class UserServiceImpl implements UserService {
         }
 
         return R.error("账号或者密码错误");
+    }
+
+    /**
+     * 忘记密码，用来找回密码
+     *
+     * @param loginUserDto 用户登录信息
+     * @return
+     */
+    @Override
+    public R findPassword(LoginUserDto loginUserDto) {
+        String account = JudgeUtil.getPhoneOrEmail(loginUserDto).get("account");
+
+        if (userDao.updatePassword(account, EncryptUtil.aesenc(key, loginUserDto.getPassword())) > 0){
+            return R.ok("密码修改成功！");
+        }
+        return R.error("该账号不存在！");
+    }
+	
+	
+	 /**
+     * 查看用户信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public R selectUserById(int id) {
+        return R.ok(userDao.selectUserById(id));
+    }
+
+    /**
+     * 修改密码
+     *
+     * @param email
+     * @param password
+     * @return
+     */
+    @Override
+    public R updatePassword(String email, String password) {
+        System.out.println(email);
+        User user = userDao.selectUserByEmail(email);
+        System.out.println(user);
+        if (user != null) {
+            MailUtils.sendMail("957162996@qq.com", "你好，这是一封测试邮件，无需回复。", "测试邮件随机生成的验证码是：" + MailUtils.getValidateCode(6));
+            int changepwd = userDao.changepwd(email, password);
+            return R.ok("修改密码成功");
+        }
+        return R.error("请重新登录");
+
     }
 }

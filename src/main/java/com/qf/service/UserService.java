@@ -3,7 +3,11 @@ package com.qf.service;
 import com.qf.dto.LoginUserDto;
 import com.qf.dto.RegisterUserDto;
 import com.qf.vo.R;
-
+import org.springframework.stereotype.Repository;
+import com.qf.pojo.ReceverAddressInfo;
+import com.qf.pojo.User;
+import com.qf.pojo.ReceverAddressInfo;
+import com.qf.pojo.User;
 /**
  * @author: Sophia
  * @date: 2020/7/18
@@ -39,4 +43,15 @@ public interface UserService {
      * @return
      */
     R userLogin(LoginUserDto loginUserDto);
+
+    /**
+     * 忘记密码，用来找回密码
+     *
+     * @param loginUserDto 用户登录信息
+     * @return
+     */
+    R findPassword(LoginUserDto loginUserDto);
+	
+	R selectUserById(int id);
+    R updatePassword(String email,String password);
 }

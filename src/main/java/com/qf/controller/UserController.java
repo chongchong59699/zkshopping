@@ -1,22 +1,21 @@
 package com.qf.controller;
 
+import com.qf.constant.SystemConstant;
 import com.qf.dto.LoginUserDto;
 import com.qf.dto.RegisterUserDto;
 import com.qf.service.UserService;
+import com.qf.util.JedisCore;
 import com.qf.vo.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * @author: Sophia
- * @date: 2020/7/18
- */
-@Api(tags = "用户相关接口")
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
-@RequestMapping("zkshopping/api/")
+@RequestMapping("api/user/")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -49,15 +48,57 @@ public class UserController {
      * @param registerUserDto 用户注册信息
      * @return
      */
+    @ApiOperation(value = "用户注册", notes = "用户注册")
     @PostMapping("userRegister")
     public R userRegister(@RequestBody RegisterUserDto registerUserDto){
         return userService.addUser(registerUserDto);
     }
 
+    /**
+     * 用户登录
+     *
+     * @param loginUserDto 用户登录的账号密码
+     * @return
+     */
+    @ApiOperation(value = "用户登录", notes = "用户登录")
     @PostMapping("userLogin")
-    public R userLogin(@RequestBody LoginUserDto loginUserDto){
-        System.out.println(loginUserDto.toString());
-
+    public R userLogin(LoginUserDto loginUserDto){
         return userService.userLogin(loginUserDto);
     }
+
+    /**
+     * 忘记密码，用来找回密码
+     *
+     * @param loginUserDto 用户登录信息
+     * @return
+     */
+    @ApiOperation(value = "找回密码", notes = "找回密码")
+    @PostMapping("findPassword")
+    public R findPassword(LoginUserDto loginUserDto){
+        return userService.findPassword(loginUserDto);
+    }
+	
+	/**
+     * 查询用户通过用户编号
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "查询用户通过用户编号", notes = "查询用户通过用户编号")
+    @PostMapping("selectUserById")
+    public R selectUserById(int id) {
+        return R.ok(userService.selectUserById(id));
+    }
+	
+	/**
+     * 修改密码
+     * @param email
+     * @param password
+     * @return
+     */
+    @ApiOperation(value = "修改密码-任晓雨", notes = "通过邮箱修改密码")
+    @PostMapping("changePassword/{password}")
+    public R changePassword(String email, @PathVariable String password) {
+        return R.ok(userService.updatePassword(email, password));
+    }
+	
 }

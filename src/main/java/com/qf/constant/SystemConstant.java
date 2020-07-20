@@ -8,5 +8,10 @@ package com.qf.constant;
  */
 public class SystemConstant {
     //令牌的请求消息头
-    public static final String TOKEN_HEADER="zkwgtoken";
+    public static final String TOKEN_HEADER = "zkwgtoken";
+    public static final String OSS_BUCKET = "zkwg";
+
+    //查询结果提示信息
+    public static final String QUERY_NULL = "查询为空";
+    public static final String QUERY_ERROR = "查询异常";
 }
