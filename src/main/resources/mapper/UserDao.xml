@@ -4,7 +4,7 @@
 
    <!-- 根据用户登录账号查询 -->
     <select id="selectUser" resultType="com.qf.pojo.User">
-        select * from user where phone=#{account} or email=#{account}
+        select * from user where email=#{account}
     </select>
 
     <!-- 根据用户登录账号修改密码 -->
