@@ -64,7 +64,7 @@ public interface UserDao {
      */
     int updatePassword(@Param("account") String account, @Param("password") String password);
 	
-	List<User> selectUserById(int id);
+	User selectUserById(int id);
     int changepwd(@Param("email") String email, @Param("password") String password);
-     User selectUserByEmail(String email);
+    User selectUserByEmail(String email);
 }
