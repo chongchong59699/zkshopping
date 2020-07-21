@@ -19,4 +19,8 @@
     <delete id="delete">
         delete from receiver_address_info where id = #{id}
     </delete>
+
+    <select id="selectById" resultType="com.qf.pojo.ReceiverAddressInfo">
+        SELECT * FROM receiver_address_info  where id= #{id}
+    </select>
 </mapper>

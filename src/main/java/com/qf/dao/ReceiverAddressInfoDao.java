@@ -14,4 +14,5 @@ public interface ReceiverAddressInfoDao {
     int update(ReceiverAddressInfo receverAddressInfo);
 
     int delete(int id);
+    ReceiverAddressInfo selectById(int id);
 }

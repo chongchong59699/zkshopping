@@ -61,4 +61,15 @@ public class ReceiverAddressInfoController {
     public R deleteAddress(int id){
         return service.delete(id);
     }
+
+    /**
+     * 根据收货地址编号查询收货信息
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "根据收货地址编号查询收货信息",notes = "根据收货地址编号查询收货信息")
+    @PostMapping("selectById")
+    public R selectById(int id) {
+        return service.selectById(id);
+    }
 }
