@@ -1,7 +1,10 @@
 package com.qf.service;
 
+import com.alipay.api.AlipayApiException;
 import com.qf.dto.CommitOrderDto;
 import com.qf.vo.R;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @ClassName: OrderService
@@ -14,5 +17,7 @@ public interface OrderService {
     R addOrder(CommitOrderDto cod);
 
     R getOrdersByUserId(int userid);
+    void notifyUrl(HttpServletRequest request) throws Exception;
 
+    R getOrderByOrderId(String orderId);
 }
