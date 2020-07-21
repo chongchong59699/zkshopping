@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+ * 支付相关配置加载配置
+ */
 /* 应用启动加载文件*/
 @Component
 public class PropertiesConfig implements ApplicationListener {

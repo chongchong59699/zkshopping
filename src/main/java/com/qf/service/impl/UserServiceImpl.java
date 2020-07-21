@@ -118,43 +118,36 @@ public class UserServiceImpl implements UserService {
     @Override
     public R userLogin(LoginUserDto loginUserDto) {
 
-        // 获取用户登录的账号
-        String account = JudgeUtil.getPhoneOrEmail(loginUserDto).get("account");
-
         // 校验该用户是否被冻结
-        if (jedisCore.checkKey(JudgeUtil.getPhoneOrEmail(loginUserDto).get("FOR")
-                + JudgeUtil.getPhoneOrEmail(loginUserDto).get("account"))){
+        if (jedisCore.checkKey(RedisKeyConfig.EMAIL_FOR + loginUserDto.getEmail())){
 
-            return R.error("您的账号已被冻结，请" + jedisCore.ttl(JudgeUtil.getPhoneOrEmail(loginUserDto).get("FOR")
-                    + JudgeUtil.getPhoneOrEmail(loginUserDto).get("account"))
-                    + "秒之后登录");
+            return R.error("您的账号已被冻结，请" + jedisCore.ttl(RedisKeyConfig.EMAIL_FOR +
+                    loginUserDto.getEmail()) + "秒之后登录");
 
-        } else if(jedisCore.checkKey(JudgeUtil.getPhoneOrEmail(loginUserDto).get("TOKEN")
-                + JudgeUtil.getPhoneOrEmail(loginUserDto).get("account"))){
+        } else if(jedisCore.checkKey(RedisKeyConfig.EMAIL_TOKEN + loginUserDto.getEmail())){
 
             return R.error("您的账号已经登录啦");
         } else {
-            User user = userDao.selectUser(account);
+            User user = userDao.selectUser(loginUserDto.getEmail());
             // 登录标记
             boolean isError = true;
 
             if (user != null){
 
-                    // 校验用户密码是否相等
-                    if (user.getPassword().equals(EncryptUtil.aesenc(key, loginUserDto.getPassword()))){
-                        // 成功登录  生成令牌 设置有效期 存储到Redis
-                        String token = TokenUtil.createToken(user.getId());
+                // 校验用户密码是否相等
+                if (user.getPassword().equals(EncryptUtil.aesenc(key, loginUserDto.getPassword()))){
+                    // 成功登录  生成令牌 设置有效期 存储到Redis
+                    String token = TokenUtil.createToken(user.getId());
 
-                        // 存储手机号
-                        jedisCore.set(JudgeUtil.getPhoneOrEmail(loginUserDto).get("TOKEN")
-                                + JudgeUtil.getPhoneOrEmail(loginUserDto).get("account"), token, RedisKeyConfig.TOKEN_TIME);
-                        // 存储user信息
-                        jedisCore.set(RedisKeyConfig.TOKEN_USER + token, JSON.toJSONString(user), RedisKeyConfig.TOKEN_TIME);
+                    // 存储用户账号信息
+                    jedisCore.set(RedisKeyConfig.EMAIL_TOKEN + loginUserDto.getEmail(), token, RedisKeyConfig.TOKEN_TIME);
+                    // 存储user信息
+                    jedisCore.set(RedisKeyConfig.TOKEN_USER + token, JSON.toJSONString(user), RedisKeyConfig.TOKEN_TIME);
 
-                        // 登录成功
-                        isError = false;
-                        // 返回token
-                        return R.ok(token);
+                    // 登录成功
+                    isError = false;
+                    // 返回token
+                    return R.ok(token);
                 }
 
             }
@@ -162,20 +155,18 @@ public class UserServiceImpl implements UserService {
             if (isError){
 
                 // 判断10分钟内错误次数
-                if (jedisCore.keys(JudgeUtil.getPhoneOrEmail(loginUserDto).get("ERROR")
-                        + JudgeUtil.getPhoneOrEmail(loginUserDto).get("account")) == 2){
+                if (jedisCore.keys(RedisKeyConfig.EMAIL_ERROR + loginUserDto.getEmail()) == 2){
                     // 冻结账号，设置冻结时间，默认30分钟
-                    jedisCore.set(JudgeUtil.getPhoneOrEmail(loginUserDto).get("TOKEN")
-                            + JudgeUtil.getPhoneOrEmail(loginUserDto).get("account"), System.currentTimeMillis()+"",RedisKeyConfig.TOKENFOR_TIME);
+                    jedisCore.set(RedisKeyConfig.EMAIL_TOKEN + loginUserDto.getEmail(), System.currentTimeMillis()+"",RedisKeyConfig.TOKENFOR_TIME);
                 }
 
                 // 记录本次错误，10分钟内错误3次，冻结账号10分钟
-                jedisCore.set(JudgeUtil.getPhoneOrEmail(loginUserDto).get("TOKEN")
-                        + JudgeUtil.getPhoneOrEmail(loginUserDto).get("account") + ":" + System.currentTimeMillis() , "", RedisKeyConfig.PHONERROR_TIME);
+                jedisCore.set(RedisKeyConfig.EMAIL_TOKEN + loginUserDto.getEmail() + ":" + System.currentTimeMillis() , "", RedisKeyConfig.PHONERROR_TIME);
             }
         }
 
         return R.error("账号或者密码错误");
+
     }
 
     /**
@@ -186,9 +177,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public R findPassword(LoginUserDto loginUserDto) {
-        String account = JudgeUtil.getPhoneOrEmail(loginUserDto).get("account");
 
-        if (userDao.updatePassword(account, EncryptUtil.aesenc(key, loginUserDto.getPassword())) > 0){
+        if (userDao.updatePassword(loginUserDto.getEmail(), EncryptUtil.aesenc(key, loginUserDto.getPassword())) > 0){
             return R.ok("密码修改成功！");
         }
         return R.error("该账号不存在！");
@@ -225,5 +215,15 @@ public class UserServiceImpl implements UserService {
         }
         return R.error("请重新登录");
 
+    }
+
+    /**
+     * 通过邮箱查询用户
+     * @param email
+     * @return
+     */
+    @Override
+    public R selectUserByEmail(String email) {
+        return R.ok(userDao.selectUserByEmail(email));
     }
 }
