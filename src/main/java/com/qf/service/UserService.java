@@ -53,4 +53,5 @@ public interface UserService {
     R selectUserById(int id);
 
     R updatePassword(String email, String password);
+    public R selectUserByEmail(String email);
 }

@@ -5,11 +5,11 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
+import com.qf.annotation.TokenValidate;
 import com.qf.config.AlipayConfig;
+import io.swagger.annotations.Api;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +22,7 @@ import java.util.Map;
 /**
  * Created by  on 2019-9-09.
  */
+@Api(tags = "阿里支付控制器")
 @CrossOrigin
 @Controller
 @RequestMapping(value="/Alipay")
@@ -31,7 +32,7 @@ public class AlipayController {
      *
      * @return
      */
-    @RequestMapping(value = "/Shopcart")
+    @GetMapping(value = "/Shopcart")
     public String Shopcart() {
         return  "pay";
     }
@@ -41,8 +42,9 @@ public class AlipayController {
      * @return
      */
     @CrossOrigin
+    @TokenValidate
     @ResponseBody
-    @RequestMapping(value = "/PayPage")
+    @PostMapping(value = "/PayPage")
     public String  payController (HttpServletRequest request, HttpServletResponse response) throws IOException {
         //获得初始化的AlipayClient
         AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.APP_ID, AlipayConfig.APP_PRIVATE_KEY, "json", AlipayConfig.CHARSET, AlipayConfig.ALIPAY_PUBLIC_KEY, AlipayConfig.sign_type);
@@ -94,7 +96,7 @@ public class AlipayController {
      * @throws Exception
      */
     @ResponseBody
-    @RequestMapping("/returnUrl")
+    @GetMapping("/returnUrl")
     public ModelAndView returnUrl(HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView();
 
@@ -130,7 +132,7 @@ public class AlipayController {
      * @throws Exception
      */
     @ResponseBody
-    @RequestMapping("/notifyUrl")
+    @GetMapping("/notifyUrl")
     public void notifyUrl(HttpServletRequest request) throws Exception {
         // 获取支付宝GET过来反馈信息
         Map<String, String> params = new HashMap<String, String>();
