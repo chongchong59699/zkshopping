@@ -1,7 +1,7 @@
 package com.qf.controller;
 
 import com.qf.pojo.ReceiverAddressInfo;
-import com.qf.service.ReceverAddressInfoService;
+import com.qf.service.ReceiverAddressInfoService;
 import com.qf.vo.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "收货地址管理")
 @RestController
 @RequestMapping("api/ReceverAddressInfo/")
-public class ReceverAddressInfoController {
+public class ReceiverAddressInfoController {
     @Autowired
-    private ReceverAddressInfoService service;
+    private ReceiverAddressInfoService service;
 
     /**
-     * 通过编号查询收货地址
+     * 通过用户编号查询收货地址
      * @param uid
      * @return
      */
-    @ApiOperation(value = "通过编号查询id" ,notes = "通过编号查询id")
+    @ApiOperation(value = "通过用户编号查询收货地址" ,notes = "通过用户编号查询收货地址")
     @PostMapping("selectByUid/{uid}")
     public R selectByUid(@PathVariable int uid) {
         return service.selectByUid(uid);

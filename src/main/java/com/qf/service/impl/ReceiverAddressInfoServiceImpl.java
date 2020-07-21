@@ -1,16 +1,16 @@
 package com.qf.service.impl;
 
-import com.qf.dao.ReceverAddressInfoDao;
+import com.qf.dao.ReceiverAddressInfoDao;
 import com.qf.pojo.ReceiverAddressInfo;
-import com.qf.service.ReceverAddressInfoService;
+import com.qf.service.ReceiverAddressInfoService;
 import com.qf.vo.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ReceverAddressInfoServiceImpl implements ReceverAddressInfoService {
+public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoService {
    @Autowired
-    private ReceverAddressInfoDao dao;
+    private ReceiverAddressInfoDao dao;
 
     @Override
     public R selectByUid(int uid) {
