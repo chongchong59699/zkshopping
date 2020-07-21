@@ -216,4 +216,14 @@ public class UserServiceImpl implements UserService {
         return R.error("请重新登录");
 
     }
+
+    /**
+     * 通过邮箱查询用户
+     * @param email
+     * @return
+     */
+    @Override
+    public R selectUserByEmail(String email) {
+        return R.ok(userDao.selectUserByEmail(email));
+    }
 }
