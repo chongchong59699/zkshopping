@@ -29,8 +29,11 @@ public class RedisKeyConfig {
     //后面跟手机号和时间戳
     public static final String EMAIL_ERROR="zkwg:error:email:";
 
+    // 后面追加邮箱号  值存储注册验证码
+    public static final String CODE_REGISTER="zkwg:code:register:";
 
-
+    // 后面追加邮箱号  值存储找回密码验证码
+    public static final String CODE_FINDPASS="zkwg:code:findPass:";
 
     //有效期  seconds
     public static final int TOKEN_TIME=30*60; //令牌有效期 单位秒

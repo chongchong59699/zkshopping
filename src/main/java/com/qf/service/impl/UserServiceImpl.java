@@ -3,6 +3,7 @@ package com.qf.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.qf.config.RedisKeyConfig;
 import com.qf.dao.UserDao;
+import com.qf.dto.FindPassUserDto;
 import com.qf.dto.LoginUserDto;
 import com.qf.dto.RegisterUserDto;
 import com.qf.pojo.User;
@@ -35,21 +36,7 @@ public class UserServiceImpl implements UserService {
     @Value("${zkwg.aes.passkey}")
     private String key;
 
-    /**
-     * 校验账号
-     * @param phone 账号
-     * @return
-     */
-    @Override
-    public R checkPhone(String phone) {
-        User user = userDao.selectUserByPhone(phone);
 
-        if (user != null){
-            return R.error("该手机号已注册！");
-        } else {
-            return R.ok();
-        }
-    }
 
     /**
      * 校验邮箱
@@ -76,35 +63,40 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public R addUser(RegisterUserDto registerUserDto) {
-        if (checkPhone(registerUserDto.getPhone()).getCode() == 200
-                && checkEmail(registerUserDto.getEmail()).getCode() == 200){
-
-            // 向注册人邮箱发送邮箱验证码
-            boolean b = MailUtils.sendMail(registerUserDto.getEmail(),
-                    "欢迎注册宅客微购，这是您的注册验证码", getValidateCode(6));
+        // 检查该用户是否已经注册
+        if (checkEmail(registerUserDto.getEmail()).getCode() == 200){
 
             // 判断验证码是否发送成功
-            if (b){
-                User user = new User();
+            if (jedisCore.checkKey(RedisKeyConfig.CODE_REGISTER + registerUserDto.getEmail())){
 
-                user.setUsername(registerUserDto.getUsername());
-                // 将密码转换成密文
-                user.setPassword(EncryptUtil.aesenc(key, registerUserDto.getPassword()));
-                user.setPhone(registerUserDto.getPhone());
-                user.setEmail(registerUserDto.getEmail());
+                String code = jedisCore.get(RedisKeyConfig.CODE_REGISTER + registerUserDto.getEmail());
 
-                // 添加用户
-                userDao.insertUser(user);
+                // 验证用户输入的验证码与发送的验证码是否一致
+                if (code.equals(registerUserDto.getCode())){
+                    User user = new User();
 
-                return R.ok();
+                    user.setUsername(registerUserDto.getUsername());
+                    user.setNickname(registerUserDto.getNickname());
+                    // 将密码转换成密文
+                    user.setPassword(EncryptUtil.aesenc(key, registerUserDto.getPassword()));
+                    user.setPhone(registerUserDto.getPhone());
+                    user.setEmail(registerUserDto.getEmail());
+
+                    // 添加用户
+                    userDao.insertUser(user);
+
+                    return R.ok();
+                }else {
+                    return R.error("验证码错误，请重新操作");
+                }
 
             } else {
-                return R.error("未收到验证码，请重新发送");
+                return R.error("请先发送验证码");
             }
 
         } else {
 
-            return R.error("注册失败，请重新操作");
+            return R.error("该邮箱已经注册");
         }
 
     }
@@ -172,16 +164,33 @@ public class UserServiceImpl implements UserService {
     /**
      * 忘记密码，用来找回密码
      *
-     * @param loginUserDto 用户登录信息
+     * @param findPassUserDto 用户登录信息
      * @return
      */
     @Override
-    public R findPassword(LoginUserDto loginUserDto) {
+    public R findPassword(FindPassUserDto findPassUserDto) {
+        // 判断修改密码时是否发送了验证码
+        if (jedisCore.checkKey(RedisKeyConfig.CODE_FINDPASS + findPassUserDto.getEmail())){
 
-        if (userDao.updatePassword(loginUserDto.getEmail(), EncryptUtil.aesenc(key, loginUserDto.getPassword())) > 0){
-            return R.ok("密码修改成功！");
+            String code = jedisCore.get(RedisKeyConfig.CODE_FINDPASS + findPassUserDto.getEmail());
+
+            // 判断验证码是否与发送的邮箱验证码一致
+            if (code.equals(findPassUserDto.getCode())){
+
+                // 修改密码
+                if (userDao.updatePassword(findPassUserDto.getEmail(), EncryptUtil.aesenc(key, findPassUserDto.getPassword())) > 0){
+                    return R.ok("密码修改成功！");
+                } else {
+                    return R.error("该账号不存在！");
+                }
+
+            } else {
+                return R.error("验证码错误，请重新操作");
+            }
+        } else {
+            return R.error("请先获取验证码");
         }
-        return R.error("该账号不存在！");
+
     }
 	
 	
@@ -225,5 +234,47 @@ public class UserServiceImpl implements UserService {
     @Override
     public R selectUserByEmail(String email) {
         return R.ok(userDao.selectUserByEmail(email));
+    }
+
+    /**
+     * 判断注册时是否发过验证码
+     *
+     * @param email 用户邮箱
+     * @return
+     */
+    @Override
+    public R sendEmailCode(String email) {
+        if (!jedisCore.checkKey(RedisKeyConfig.CODE_REGISTER + email)){
+            String code = getValidateCode(6);
+            MailUtils.sendMail(email, "欢迎注册宅客微购，这是您的注册验证码：" + code,
+                    "宅客微购注册验证码");
+
+            jedisCore.set(RedisKeyConfig.CODE_REGISTER + email, code, 5*60);
+
+            return R.ok("验证码发送成功");
+        } else {
+            return R.ok("验证码已经发送");
+        }
+    }
+
+    /**
+     * 判断找回密码时是否发过验证码
+     *
+     * @param email 用户邮箱
+     * @return
+     */
+    @Override
+    public R getEmailCode(String email) {
+        if (!jedisCore.checkKey(RedisKeyConfig.CODE_FINDPASS + email)){
+            String code = getValidateCode(6);
+            MailUtils.sendMail(email, "您已提交找回密码，这是您的验证码：" + code,
+                    "找回密码申请");
+
+            jedisCore.set(RedisKeyConfig.CODE_FINDPASS + email, code, 5*60);
+
+            return R.ok("验证码发送成功");
+        } else {
+            return R.ok("验证码已经发送");
+        }
     }
 }
