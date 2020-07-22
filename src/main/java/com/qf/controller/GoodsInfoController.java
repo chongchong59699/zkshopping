@@ -5,6 +5,7 @@ import com.qf.vo.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Create: 2020/07/18 14:32
  */
 @Api(tags = "在线商城控制器")
+@CrossOrigin
 @RestController
 @RequestMapping("/api/goodsInfo")
 public class GoodsInfoController {
