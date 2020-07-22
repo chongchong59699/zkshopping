@@ -1,5 +1,6 @@
 package com.qf.service;
 
+import com.qf.dto.FindPassUserDto;
 import com.qf.dto.LoginUserDto;
 import com.qf.dto.RegisterUserDto;
 import com.qf.vo.R;
@@ -9,14 +10,6 @@ import com.qf.vo.R;
  * @date: 2020/7/18
  */
 public interface UserService {
-
-    /**
-     * 校验手机号
-     *
-     * @param phone 手机号
-     * @return
-     */
-    R checkPhone(String phone);
 
     /**
      * 校验邮箱
@@ -45,13 +38,29 @@ public interface UserService {
     /**
      * 忘记密码，用来找回密码
      *
-     * @param loginUserDto 用户登录信息
+     * @param findPassUserDto 找回密码时用户信息
      * @return
      */
-    R findPassword(LoginUserDto loginUserDto);
+    R findPassword(FindPassUserDto findPassUserDto);
 
     R selectUserById(int id);
 
     R updatePassword(String email, String password);
     public R selectUserByEmail(String email);
+
+    /**
+     * 判断注册时是否发过验证码
+     *
+     * @param email 用户邮箱
+     * @return
+     */
+    R sendEmailCode(String email);
+
+    /**
+     * 判断找回密码时是否发过验证码
+     *
+     * @param email 用户邮箱
+     * @return
+     */
+    R getEmailCode(String email);
 }

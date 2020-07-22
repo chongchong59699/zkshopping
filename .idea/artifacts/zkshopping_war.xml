@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="zkshopping:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>zkshopping</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="zkshopping-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="zkshopping:war exploded" />
+    </root>
+  </artifact>
+</component>
