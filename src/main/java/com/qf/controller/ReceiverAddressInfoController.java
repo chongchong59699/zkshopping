@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+@CrossOrigin
 @Api(tags = "收货地址管理")
 @RestController
 @RequestMapping("api/ReceverAddressInfo/")
@@ -62,7 +62,7 @@ public class ReceiverAddressInfoController {
         return service.delete(id);
     }
 /**
-* 根据根据收货地址编号查询收货信息
+* 根据收货地址编号查询收货信息
 * @param id
 * @return
 *
