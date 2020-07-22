@@ -7,7 +7,6 @@ import lombok.Data;
  * 显示店铺里的商品列表
  */
 public class ShopDto {
-    private Integer id;
     private String url;
     private String name;
     private Double price;
