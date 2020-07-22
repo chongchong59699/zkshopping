@@ -1,0 +1,179 @@
+Index: src/main/resources/application.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>server:\r\n  port: 8080\r\nspring:\r\n  profiles:\r\n    active: prod
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/resources/application.yml	(revision a7da55112b665b7585686eb669da850d22bc0911)
++++ src/main/resources/application.yml	(date 1595053664257)
+@@ -2,4 +2,4 @@
+   port: 8080
+ spring:
+   profiles:
+-    active: prod
+\ No newline at end of file
++    active: dev
+\ No newline at end of file
+Index: src/main/java/com/qf/service/OnlineStoreService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/qf/service/OnlineStoreService.java	(date 1595054493489)
++++ src/main/java/com/qf/service/OnlineStoreService.java	(date 1595054493489)
+@@ -0,0 +1,11 @@
++package com.qf.service;
++
++/**
++ * @Class: OnlineStoreService
++ * @Description: 首页 在线商城 1,2,3级分类业务层
++ * @Author: Jerry(姜源)
++ * @Create: 2020/07/18 14:40
++ */
++public class OnlineStoreService {
++
++}
+Index: src/main/resources/application-dev.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring:\r\n  datasource:\r\n    url: jdbc:mysql://:3306/zkwg?serverTimezone=Asia/Shanghai？\r\n    username: root\r\n    password: root\r\n    #driver-class-name: com.mysql.cj.jdbc.Driver\r\n    type: com.alibaba.druid.pool.DruidDataSource\r\n    driver-class-name: com.mysql.cj.jdbc.Driver\r\n\r\n\r\nmybatis:\r\n  mapper-locations: classpath*:mapper/*.xml\r\n#自定义属性配置\r\nzkwg:\r\n  redis:\r\n    host:\r\n    port: 6379\r\n    #没有密码的话 这里留空即可\r\n    pass:\r\n  aes:\r\n    passkey: dP0ykNOnMdKFaXCIOnXckg==
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/resources/application-dev.yml	(revision a7da55112b665b7585686eb669da850d22bc0911)
++++ src/main/resources/application-dev.yml	(date 1595053709055)
+@@ -1,21 +1,21 @@
+ spring:
+   datasource:
+-    url: jdbc:mysql://:3306/zkwg?serverTimezone=Asia/Shanghai？
++    url: jdbc:mysql://localhost:3306/zkwg?serverTimezone=Asia/Shanghai?&useUnicode=true&characterEncoding=utf8
+     username: root
+-    password: root
+-    #driver-class-name: com.mysql.cj.jdbc.Driver
+-    type: com.alibaba.druid.pool.DruidDataSource
++    password: 123456
+     driver-class-name: com.mysql.cj.jdbc.Driver
++    type: com.alibaba.druid.pool.DruidDataSource
+ 
+ 
+ mybatis:
+   mapper-locations: classpath*:mapper/*.xml
++
+ #自定义属性配置
+ zkwg:
+   redis:
+-    host:
++    host: 192.168.247.130
+     port: 6379
+     #没有密码的话 这里留空即可
+-    pass:
++    pass: 1234
+   aes:
+     passkey: dP0ykNOnMdKFaXCIOnXckg==
+\ No newline at end of file
+Index: src/main/java/com/qf/controller/OnlieStoreController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/qf/controller/OnlieStoreController.java	(date 1595054399958)
++++ src/main/java/com/qf/controller/OnlieStoreController.java	(date 1595054399958)
+@@ -0,0 +1,22 @@
++package com.qf.controller;
++
++import io.swagger.annotations.Api;
++import org.springframework.stereotype.Controller;
++
++/**
++ * @Class: OnlieStoreTypeController
++ * @Description: 首页 在线商城 1,2,3级分类控制器
++ * @Author: Jerry(姜源)
++ * @Create: 2020/07/18 14:32
++ */
++@Api(tags = "在线商城控制器")
++@Controller
++public class OnlieStoreController {
++
++    // 主导航
++
++    // 商品快捷分类
++
++    // 主体显示：分类中包含商品信息
++
++}
+Index: src/main/java/com/qf/dao/OnlineStoreDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/qf/dao/OnlineStoreDao.java	(date 1595055064220)
++++ src/main/java/com/qf/dao/OnlineStoreDao.java	(date 1595055064220)
+@@ -0,0 +1,16 @@
++package com.qf.dao;
++
++import org.springframework.stereotype.Repository;
++
++/**
++ * @Class: OnlineStoreDao
++ * @Description: 首页 在线商城 1,2,3级分类控制器
++ * @Author: Jerry(姜源)
++ * @Create: 2020/07/18 14:42
++ */
++@Repository
++public class OnlineStoreDao {
++
++
++
++}
+Index: .idea/inspectionProfiles/Project_Default.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><component name=\"InspectionProjectProfileManager\">\r\n  <profile version=\"1.0\" is_locked=\"false\">\r\n    <option name=\"myName\" value=\"Project Default\" />\r\n  </profile>\r\n</component>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/inspectionProfiles/Project_Default.xml	(revision a7da55112b665b7585686eb669da850d22bc0911)
++++ .idea/inspectionProfiles/Project_Default.xml	(date 1595054008856)
+@@ -1,5 +1,36 @@
+ <component name="InspectionProjectProfileManager">
+   <profile version="1.0" is_locked="false">
+     <option name="myName" value="Project Default" />
++    <inspection_tool class="JavaDoc" enabled="true" level="WARNING" enabled_by_default="true">
++      <option name="TOP_LEVEL_CLASS_OPTIONS">
++        <value>
++          <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
++          <option name="REQUIRED_TAGS" value="" />
++        </value>
++      </option>
++      <option name="INNER_CLASS_OPTIONS">
++        <value>
++          <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
++          <option name="REQUIRED_TAGS" value="" />
++        </value>
++      </option>
++      <option name="METHOD_OPTIONS">
++        <value>
++          <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
++          <option name="REQUIRED_TAGS" value="@return@param@throws or @exception" />
++        </value>
++      </option>
++      <option name="FIELD_OPTIONS">
++        <value>
++          <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
++          <option name="REQUIRED_TAGS" value="" />
++        </value>
++      </option>
++      <option name="IGNORE_DEPRECATED" value="false" />
++      <option name="IGNORE_JAVADOC_PERIOD" value="true" />
++      <option name="IGNORE_DUPLICATED_THROWS" value="false" />
++      <option name="IGNORE_POINT_TO_ITSELF" value="false" />
++      <option name="myAdditionalJavadocTags" value="Class:,Description:,Author:,Create:" />
++    </inspection_tool>
+   </profile>
+ </component>
+\ No newline at end of file
+diff --git src/main/java/com/qf/dao/.gitignore src/main/java/com/qf/dao/.gitignore
+new file mode 100644
+diff --git src/main/java/com/qf/service/impl/.gitignore src/main/java/com/qf/service/impl/.gitignore
+new file mode 100644
