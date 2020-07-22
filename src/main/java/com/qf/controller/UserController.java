@@ -1,35 +1,21 @@
 package com.qf.controller;
 
-import com.qf.constant.SystemConstant;
+import com.qf.dto.FindPassUserDto;
 import com.qf.dto.LoginUserDto;
 import com.qf.dto.RegisterUserDto;
 import com.qf.service.UserService;
-import com.qf.util.JedisCore;
 import com.qf.vo.R;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("api/user/")
+@CrossOrigin
 public class UserController {
     @Autowired
     private UserService userService;
-
-    /**
-     * 校验手机号
-     * @param phone 手机号
-     * @return
-     */
-    @ApiOperation(value = "校验手机号是否存在", notes = "校验手机号是否存在")
-    @GetMapping("checkPhone/{phone}")
-    public R checkPhone(@PathVariable String phone){
-        return userService.checkPhone(phone);
-    }
 
     /**
      * 校验邮箱
@@ -62,7 +48,7 @@ public class UserController {
      */
     @ApiOperation(value = "用户登录", notes = "用户登录")
     @PostMapping("userLogin")
-    public R userLogin(LoginUserDto loginUserDto){
+    public R userLogin(@RequestBody LoginUserDto loginUserDto){
         return userService.userLogin(loginUserDto);
     }
 
@@ -74,8 +60,8 @@ public class UserController {
      */
     @ApiOperation(value = "找回密码", notes = "找回密码")
     @PostMapping("findPassword")
-    public R findPassword(LoginUserDto loginUserDto){
-        return userService.findPassword(loginUserDto);
+    public R findPassword(FindPassUserDto findPassUserDto){
+        return userService.findPassword(findPassUserDto);
     }
 	
 	/**
@@ -84,8 +70,8 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "查询用户通过用户编号", notes = "查询用户通过用户编号")
-    @PostMapping("selectUserById")
-    public R selectUserById(int id) {
+    @PostMapping("selectUserById/{id}")
+    public R selectUserById(@PathVariable int id) {
         return userService.selectUserById(id);
     }
 	
@@ -101,10 +87,39 @@ public class UserController {
         return userService.updatePassword(email, password);
     }
 
+    /**
+     * 通过邮箱查询用户
+     * @param email
+     * @return
+     */
     @ApiOperation(value = "通过邮箱查询用户",notes = "通过邮箱查询用户" )
-    @PostMapping("selectUserByEmail")
-    public R selectUserByEmail(String email) {
+    @PostMapping("selectUserByEmail/{email}")
+    public R selectUserByEmail(@PathVariable String email) {
         return userService.selectUserByEmail(email);
     }
-	
+
+    /**
+     * 判断注册时是否发过验证码
+     *
+     * @param email 用户邮箱
+     * @return
+     */
+    @ApiOperation(value = "注册验证码", notes = "注册验证码")
+    @PostMapping("sendEmailCode/{email}")
+    public R sendEmailCode(@PathVariable String email){
+        return userService.sendEmailCode(email);
+    }
+
+    /**
+     * 判断找回密码时是否发过验证码
+     *
+     * @param email 用户邮箱
+     * @return
+     */
+    @ApiOperation(value = "找回密码验证码", notes = "找回密码验证码")
+    @PostMapping("getEmailCode/{email}")
+    public R getEmailCode(@PathVariable String email){
+        return userService.getEmailCode(email);
+    }
+
 }
