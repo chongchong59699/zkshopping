@@ -66,5 +66,12 @@ public interface UserDao {
 	
 	User selectUserById(int id);
     int changepwd(@Param("email") String email, @Param("password") String password);
+
+    /**
+     * 根据邮箱查询用户
+     *
+     * @param email 邮箱
+     * @return
+     */
     User selectUserByEmail(String email);
 }
