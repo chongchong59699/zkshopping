@@ -8,4 +8,5 @@ public interface ReceiverAddressInfoService {
     R insert(ReceiverAddressInfo receverAddressInfo);
     R updateAddress(ReceiverAddressInfo receverAddressInfo);
     R delete(int id);
+    R selectById(int id);
 }
