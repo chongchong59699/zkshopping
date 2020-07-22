@@ -1,7 +1,9 @@
 package com.qf.controller;
 
 import com.alipay.api.AlipayApiException;
+import com.alipay.api.internal.util.AlipaySignature;
 import com.qf.annotation.TokenValidate;
+import com.qf.config.AlipayConfig;
 import com.qf.dto.CommitOrderDto;
 import com.qf.pojo.AlipayBean;
 import com.qf.service.OrderService;
@@ -12,11 +14,16 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 /* 订单接口 */
 @CrossOrigin
 @RestController()
-@RequestMapping("/order")
-@Api(tags = "订单支付控制器")
+@RequestMapping("api/order")
+@Api(tags = "订单控制器")
 public class OrderController {
     @Autowired
     private PayService payService;//调用支付服务
@@ -24,7 +31,6 @@ public class OrderController {
     private OrderService orderService;
 
     /*阿里支付*/
-
 
     /**
      * 下单
@@ -44,7 +50,6 @@ public class OrderController {
                 .setOut_trade_no(out_trade_no)
                 .setTotal_amount(new StringBuffer().append(total_amount))
                 .setSubject(subject),cod);
-
     }@ApiOperation(value = "查询所有订单信息根据用户id")
     @GetMapping(value = "getOrdersByUserId/{userId}")
     public R getOrdersByUserId(@PathVariable int userId){
@@ -69,6 +74,5 @@ public class OrderController {
     public void notifyUrl(HttpServletRequest request) throws Exception {
         orderService.notifyUrl(request);
     }
-
 
 }
