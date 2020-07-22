@@ -1,0 +1,9 @@
+<changelist name="Uncommitted_changes_before_Update_at_2020_07_21_08_18_[Default_Changelist]" date="1595290723959" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2020_07_21_08_18_[Default_Changelist]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 2020/07/21 08:18 [Default Changelist]" />
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/qf/service/impl/UserServiceImpl.class" />
+    <option name="AFTER_PATH" value="target/classes/com/qf/service/impl/UserServiceImpl.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2020_07_21_08_18_[Default_Changelist]/UserServiceImpl.class" />
+  </binary>
+</changelist>

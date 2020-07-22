@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.dao.SearchDao">
+
+<select id="selectGoodsInStoreByKey" resultType="com.qf.pojo.Goods">
+select
+    zkwg.goods.id,zkwg.goods.goods_code,zkwg.goods.img_id,zkwg.goods.name,zkwg.goods.price,zkwg.goods.discount,zkwg.goods.store_id,zkwg.goods.third_level_id,zkwg.goods.slogan,zkwg.goods.description,zkwg.goods.score,zkwg.goods.comment_id,zkwg.goods.storage_num,zkwg.goods.size,zkwg.goods.color
+from
+    zkwg.goods,zkwg.store where zkwg.goods.store_id = zkwg.store.store_id
+and
+    zkwg.store.store_id = #{store_id}
+and
+    zkwg.goods.name like concat('%',#{searchKey},'%')
+</select>
+
+
+
+
+</mapper>
