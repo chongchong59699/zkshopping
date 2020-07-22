@@ -6,11 +6,9 @@ import com.qf.vo.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @Api(tags = "收货地址管理")
 @RestController
 @RequestMapping("api/ReceverAddressInfo/")
@@ -57,8 +55,19 @@ public class ReceiverAddressInfoController {
      * @return
      */
     @ApiOperation(value = "删除收货地址",notes = "删除收货地址")
-    @PostMapping("deleteAddress")
-    public R deleteAddress(int id){
+    @PostMapping("deleteAddress/{id}")
+    public R deleteAddress(@PathVariable int id){
         return service.delete(id);
+    }
+/**
+* 根据收货地址编号查询收货信息
+* @param id
+* @return
+*
+*/
+    @ApiOperation(value = "根据收货地址编号查询收货信息",notes = "根据收货地址编号查询收货信息")
+    @PostMapping("selectById/{id}")
+    public R selectById(@PathVariable int id) {
+        return service.selectById(id);
     }
 }

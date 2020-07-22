@@ -70,8 +70,8 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "查询用户通过用户编号", notes = "查询用户通过用户编号")
-    @PostMapping("selectUserById")
-    public R selectUserById(int id) {
+    @PostMapping("selectUserById/{id}")
+    public R selectUserById(@PathVariable int id) {
         return userService.selectUserById(id);
     }
 	
@@ -87,9 +87,14 @@ public class UserController {
         return userService.updatePassword(email, password);
     }
 
+    /**
+     * 通过邮箱查询用户
+     * @param email
+     * @return
+     */
     @ApiOperation(value = "通过邮箱查询用户",notes = "通过邮箱查询用户" )
-    @PostMapping("selectUserByEmail")
-    public R selectUserByEmail(String email) {
+    @PostMapping("selectUserByEmail/{email}")
+    public R selectUserByEmail(@PathVariable String email) {
         return userService.selectUserByEmail(email);
     }
 

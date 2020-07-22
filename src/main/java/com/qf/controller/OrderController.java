@@ -10,6 +10,7 @@ import com.qf.service.OrderService;
 import com.qf.service.PayService;
 import com.qf.vo.R;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +42,7 @@ public class OrderController {
      * @return
      * @throws AlipayApiException
      */
+    @ApiOperation(value = "订单提交", notes = "订单提交(同步方法 因为要跳转支付宝内容)")
     @PostMapping(value = "alipay")
     public String alipay(String out_trade_no, String subject, String total_amount, String body, CommitOrderDto cod) throws AlipayApiException {
         return payService.aliPay(new AlipayBean()
@@ -48,11 +50,13 @@ public class OrderController {
                 .setOut_trade_no(out_trade_no)
                 .setTotal_amount(new StringBuffer().append(total_amount))
                 .setSubject(subject),cod);
-    }
+    }@ApiOperation(value = "查询所有订单信息根据用户id")
     @GetMapping(value = "getOrdersByUserId/{userId}")
     public R getOrdersByUserId(@PathVariable int userId){
         return orderService.getOrdersByUserId(userId);
     }
+
+    @ApiOperation(value = "查询订单信息根据订单id")
     @GetMapping(value = "getOrderByOrderId/{orderId}")
     public R getOrderByOrderId(@PathVariable String orderId){
         return orderService.getOrderByOrderId(orderId);
@@ -64,6 +68,7 @@ public class OrderController {
      * @param request
      * @throws Exception
      */
+    @ApiOperation(value = "异步回调是否支付结果(由支付宝来调取)")
     @ResponseBody
     @PostMapping("/notifyUrl")
     public void notifyUrl(HttpServletRequest request) throws Exception {

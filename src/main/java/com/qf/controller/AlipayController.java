@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * Created by  on 2019-9-09.
  */
-@Api(tags = "阿里支付控制器")
+@Api(tags = "阿里支付控制器-暂时弃用")
 @CrossOrigin
 @Controller
 @RequestMapping(value="/Alipay")

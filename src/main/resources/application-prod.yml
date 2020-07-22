@@ -7,8 +7,12 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 
+#扫描mapper文件 + 输出SQL日志
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 #自定义属性配置
 zkwg:
   redis:

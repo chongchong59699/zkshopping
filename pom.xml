@@ -12,6 +12,7 @@
     <artifactId>zkshopping</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>zkshopping</name>
+    <packaging>war</packaging>
     <description>A shopping platform</description>
 
     <!--声明的版本号-->

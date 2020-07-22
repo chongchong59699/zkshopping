@@ -13,6 +13,7 @@ public class GoodsDto {
     private Integer id;
     private String goods_code;
     private String img_id;
+    private String url;
     private String name;
     private String slogan;
     private Double price;
