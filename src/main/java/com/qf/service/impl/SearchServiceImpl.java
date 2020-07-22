@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: zkshopping
@@ -27,7 +28,7 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public R getAllBand() {
-        List<BandDto> allBand = searchDao.getAllBand();
+        List<Map<String, Object>> allBand = searchDao.getAllBand();
         if (allBand != null) {
             return R.ok(allBand);
         }
@@ -37,6 +38,7 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public R getStoreByName(String storeName) {
         Store storeByName = searchDao.getStoreByName(storeName);
+        
         if (storeByName != null) {
             return R.ok(storeByName);
         }

@@ -11,6 +11,7 @@ import lombok.Data;
 @Data
 public class CommitOrderDto {
    private String order_id;  //后台拿
+   private String goods_id;
    private Integer user_id;
    private String buyer_message;
    private String buyer_nickname;  //后台数据库查询
