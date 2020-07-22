@@ -31,4 +31,9 @@ public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoServic
     public R delete(int id) {
         return R.ok(dao.delete(id));
     }
+
+    @Override
+    public R selectById(int id) {
+        return R.ok(dao.selectById(id));
+    }
 }

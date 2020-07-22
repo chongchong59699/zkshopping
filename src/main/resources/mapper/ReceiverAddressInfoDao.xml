@@ -5,11 +5,13 @@
 <mapper namespace="com.qf.dao.ReceiverAddressInfoDao">
     <select id="selectByUid" resultType="com.qf.pojo.ReceiverAddressInfo">
         SELECT * FROM receiver_address_info,user WHERE receiver_address_info.user_id =user.id
-           AND user_id  = #{uid}
+
+        AND user_id  = #{uid}
     </select>
 
     <insert id="insert">
-     insert into receiver_address_info (province,city,detailed_address,zip_code,receiver_name,phone,user_id) values (#{province},#{city},#{detailed_address},#{zip_code},#{receiver_name}, #{phone},#{user_id})
+        insert into receiver_address_info (province,city,detailed_address,zip_code,receiver_name,phone,user_id) values (#{province},#{city},#{detailed_address},#{zip_code},#{receiver_name}, #{phone},#{user_id})
+
     </insert>
 
     <update id="update">
@@ -19,4 +21,10 @@
     <delete id="delete">
         delete from receiver_address_info where id = #{id}
     </delete>
+
+
+    <select id="selectById" resultType="com.qf.pojo.ReceiverAddressInfo">
+        SELECT * FROM receiver_address_info  where id= #{id}
+    </select>
+
 </mapper>
