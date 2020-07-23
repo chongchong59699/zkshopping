@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
  * @encoder: Roue(赵鸿宇)
  * @create: 2020-07-18 18:31
  **/
+@CrossOrigin
 @Api(value = "用于搜索列表")
 @RestController
 @RequestMapping("api/search")
