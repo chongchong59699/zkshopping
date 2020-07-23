@@ -20,6 +20,7 @@ public class CommitOrderDto {
    private Integer receiver_addr_id;
    private Integer goods_num;
    private Double total_fee;
+   private String goods_id;
 
 
 
