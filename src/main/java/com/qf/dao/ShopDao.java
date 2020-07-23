@@ -9,7 +9,7 @@ import java.util.List;
 public interface ShopDao {
 
     //普通查询，根据店铺id查询出所有商品信息
-    ShopDto queryByStoreId(Integer storeId);
+    List<ShopDto> queryByStoreId(Integer storeId);
     //根据商品编号查询商品信息
     ShopDto queryById(Integer id);
 }
