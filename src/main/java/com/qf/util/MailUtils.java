@@ -21,10 +21,16 @@ public final class MailUtils {
      */
     /* 发送验证信息的邮件 */
     public static boolean sendMail(String to, String text, String title) {
+        final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
         try {
             final Properties props = new Properties();
             props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.host", "smtp.qq.com");
+            //465端口
+            props.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
+            props.setProperty("mail.smtp.socketFactory.fallback", "false");
+            props.setProperty("mail.smtp.port", "465");
+            props.setProperty("mail.smtp.socketFactory.port", "465");
 
             // 发件人的账号
             props.put("mail.user", USER);
@@ -82,7 +88,7 @@ public final class MailUtils {
     }
 
     public static void main(String[] args) throws Exception { // 做测试用
-        MailUtils.sendMail("1525452238@qq.com", "你好，这是一封测试邮件，无需回复。", "测试邮件随机生成的验证码是：" + getValidateCode(6));
+        MailUtils.sendMail("596995854@qq.com", "你好，这是一封测试邮件，无需回复。", "测试邮件随机生成的验证码是：" + getValidateCode(6));
         System.out.println("发送成功");
     }
 }
