@@ -1,5 +1,6 @@
 package com.qf.controller;
 
+import com.qf.constant.SystemConstant;
 import com.qf.dto.FindPassUserDto;
 import com.qf.dto.LoginUserDto;
 import com.qf.dto.RegisterUserDto;
@@ -8,6 +9,7 @@ import com.qf.vo.R;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
@@ -71,8 +73,8 @@ public class UserController {
      */
     @ApiOperation(value = "查询用户通过用户编号", notes = "查询用户通过用户编号")
     @PostMapping("selectUserById/{id}")
-    public R selectUserById(@PathVariable int id) {
-        return userService.selectUserById(id);
+    public R selectUserById(HttpServletRequest request,@PathVariable int id) {
+        return userService.selectUserById(request.getHeader(SystemConstant.TOKEN_HEADER),id);
     }
 	
 	/**
@@ -83,8 +85,8 @@ public class UserController {
      */
     @ApiOperation(value = "修改密码-任晓雨", notes = "通过邮箱修改密码")
     @PostMapping("changePassword/{password}")
-    public R changePassword(String email, @PathVariable String password) {
-        return userService.updatePassword(email, password);
+    public R changePassword(HttpServletRequest request,String email, @PathVariable String password) {
+        return userService.updatePassword(request.getHeader(SystemConstant.TOKEN_HEADER),email, password);
     }
 
     /**
@@ -94,22 +96,9 @@ public class UserController {
      */
     @ApiOperation(value = "通过邮箱查询用户",notes = "通过邮箱查询用户" )
     @PostMapping("selectUserByEmail/{email}")
-    public R selectUserByEmail(@PathVariable String email) {
-        return userService.selectUserByEmail(email);
-    }
-
-    /**
-     * 判断注册时是否发过验证码
-     *
-     * @param email 用户邮箱
-     * @return
-     */
-    @ApiOperation(value = "注册验证码", notes = "注册验证码")
-    @PostMapping("sendEmailCode/{email}")
-    public R sendEmailCode(@PathVariable String email){
-        return userService.sendEmailCode(email);
-    }
-
+    public R selectUserByEmail(HttpServletRequest request,@PathVariable String email) {
+        return userService.selectUserByEmail(request.getHeader(SystemConstant.TOKEN_HEADER), email);
+}
     /**
      * 判断找回密码时是否发过验证码
      *

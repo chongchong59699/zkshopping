@@ -51,4 +51,22 @@ public class SearchServiceImpl implements SearchService {
         }
         return R.error("本店暂无该商品");
     }
+
+    @Override
+    public R searchGoods(String key) {
+        if (key != null && !key.equals("")) {
+            List<Goods> goods = searchDao.selectGoodsByName(key);
+            return R.ok(goods);
+        }
+        return R.error("暂时找不到该商品");
+    }
+
+    @Override
+    public R searchStore(String key) {
+        if (key != null && !key.equals("")) {
+            List<Store> stores = searchDao.selectStoresByName(key);
+            return R.ok(stores);
+        }
+        return R.error("该店铺不存在");
+    }
 }
