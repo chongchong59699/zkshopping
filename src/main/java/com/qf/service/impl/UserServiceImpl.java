@@ -201,8 +201,12 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public R selectUserById(int id) {
-        return R.ok(userDao.selectUserById(id));
+    public R selectUserById(String toekn,int id) {
+        User user = TokenUtil.getUserFromToken(toekn, jedisCore);
+        if (user!=null) {
+            return R.ok(userDao.selectUserById(id));
+        }
+       return R.error("查询失败");
     }
 
     /**
@@ -213,12 +217,9 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public R updatePassword(String email, String password) {
-        System.out.println(email);
-        User user = userDao.selectUserByEmail(email);
-        System.out.println(user);
+    public R updatePassword(String token,String email, String password) {
+        User user = TokenUtil.getUserFromToken(token, jedisCore);
         if (user != null) {
-            MailUtils.sendMail("957162996@qq.com", "你好，这是一封测试邮件，无需回复。", "测试邮件随机生成的验证码是：" + MailUtils.getValidateCode(6));
             int changepwd = userDao.changepwd(email, password);
             return R.ok("修改密码成功");
         }
@@ -226,14 +227,19 @@ public class UserServiceImpl implements UserService {
 
     }
 
+
     /**
      * 通过邮箱查询用户
      * @param email
      * @return
      */
     @Override
-    public R selectUserByEmail(String email) {
-        return R.ok(userDao.selectUserByEmail(email));
+    public R selectUserByEmail(String token,String email) {
+        User user = TokenUtil.getUserFromToken(token, jedisCore);
+        if (user!= null) {
+            return R.ok(userDao.selectUserByEmail(email));
+        }
+       return R.error("查询失败");
     }
 
     /**
