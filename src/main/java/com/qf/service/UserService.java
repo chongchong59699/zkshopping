@@ -43,10 +43,10 @@ public interface UserService {
      */
     R findPassword(FindPassUserDto findPassUserDto);
 
-    R selectUserById(int id);
+    R selectUserById(String token,int id);
 
-    R updatePassword(String email, String password);
-    public R selectUserByEmail(String email);
+    R updatePassword(String token,String email, String password);
+    R selectUserByEmail(String token,String email);
 
     /**
      * 判断注册时是否发过验证码
