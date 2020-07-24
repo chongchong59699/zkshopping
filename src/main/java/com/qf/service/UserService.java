@@ -12,6 +12,14 @@ import com.qf.vo.R;
 public interface UserService {
 
     /**
+     * 校验手机号
+     *
+     * @param phone 手机号
+     * @return
+     */
+    R checkPhone(String phone);
+
+    /**
      * 校验邮箱
      *
      * @param email 邮箱
@@ -63,4 +71,5 @@ public interface UserService {
      * @return
      */
     R getEmailCode(String email);
+
 }
