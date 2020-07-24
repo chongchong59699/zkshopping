@@ -16,10 +16,10 @@ public class ShopController {
     private ShopService service;
 
 
-    @ApiOperation("获取店铺所有商品信息")
-    @GetMapping("queryAll")
-    public R queryAll(){
-        return service.queryAll();
+    @ApiOperation("根据店铺编号获取店铺商品信息")
+    @GetMapping("queryByStoreId/{storeId}")
+    public R queryByStoreId(@PathVariable Integer storeId){
+        return service.queryByStoreId(storeId);
     }
 
     @ApiOperation("根据商品编号查询商品信息")
