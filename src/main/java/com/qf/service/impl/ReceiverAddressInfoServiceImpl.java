@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoService {
-   @Autowired
+    @Autowired
     private ReceiverAddressInfoDao dao;
-   @Autowired
-   private JedisCore jedisCore;
+    @Autowired
+    private JedisCore jedisCore;
 
     @Override
     public R selectByUid(String token,int uid) {
@@ -25,7 +25,7 @@ public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoServic
         if (user!=null) {
             return R.ok(dao.selectByUid(uid));
         } else {
-            return R.error("²éÑ¯Ê§°Ü");
+            return R.error("æŸ¥è¯¢å¤±è´¥");
         }
 
     }
@@ -37,7 +37,7 @@ public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoServic
             receiverAddressInfo.setUser_id(user.getId());
             return R.ok(dao.insert(receiverAddressInfo));
         }else {
-            return R.error("ÇëÖØĞÂµÇÂ¼ºóÔÙÊÔ");
+            return R.error("è¯·é‡æ–°ç™»å½•åå†è¯•");
         }
 
     }
@@ -48,7 +48,7 @@ public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoServic
         if (user!=null) {
             return R.ok(dao.update(receiverAddressInfo));
         }
-       return R.error("ĞŞ¸ÄÊ§°Ü");
+        return R.error("ä¿®æ”¹å¤±è´¥");
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoServic
         if (user!=null) {
             return R.ok(dao.delete(id));
         } else {
-            return R.error("É¾³ıÊ§°Ü");
+            return R.error("åˆ é™¤å¤±è´¥");
         }
 
     }
@@ -68,7 +68,7 @@ public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoServic
         if(user!=null){
             return R.ok(dao.selectById(id));
         }else {
-            return R.error("ÇëÖØĞÂµÇÂ¼");
+            return R.error("è¯·é‡æ–°ç™»å½•");
         }
 
     }
