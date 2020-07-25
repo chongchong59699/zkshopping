@@ -15,7 +15,7 @@
     </select>
 
     <select id="queryById" resultType="com.qf.dto.ShopDto">
-        SELECT goods.`id`,url, goods.`name`, price, store_name, logo_img_url, wangwang, third_level_type.`name` AS third_level_name
+        SELECT goods.`id`,url, goods.`name`, price, store.`store_id`, store_name, logo_img_url, wangwang, third_level_type.`name` AS third_level_name
         FROM goods
                      INNER JOIN imgs
                 ON goods.`img_id` = imgs.`id`
