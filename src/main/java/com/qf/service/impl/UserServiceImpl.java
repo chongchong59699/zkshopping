@@ -36,6 +36,21 @@ public class UserServiceImpl implements UserService {
     @Value("${zkwg.aes.passkey}")
     private String key;
 
+    /**
+     * 校验手机号
+     * @param phone 手机号
+     * @return
+     */
+    @Override
+    public R checkPhone(String phone) {
+        User user = userDao.selectUserByPhone(phone);
+        if (user != null){
+            return R.error("该手机号已注册！");
+        } else {
+            return R.ok();
+        }
+
+    }
 
 
     /**
@@ -64,7 +79,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public R addUser(RegisterUserDto registerUserDto) {
         // 检查该用户是否已经注册
-        if (checkEmail(registerUserDto.getEmail()).getCode() == 200){
+        if (checkEmail(registerUserDto.getEmail()).getCode() == 200
+                && checkPhone(registerUserDto.getPhone()).getCode() == 200){
 
             // 判断验证码是否发送成功
             if (jedisCore.checkKey(RedisKeyConfig.CODE_REGISTER + registerUserDto.getEmail())){
@@ -96,7 +112,7 @@ public class UserServiceImpl implements UserService {
 
         } else {
 
-            return R.error("该邮箱已经注册");
+            return R.error("该邮箱或手机号已经注册");
         }
 
     }
@@ -201,8 +217,12 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public R selectUserById(int id) {
-        return R.ok(userDao.selectUserById(id));
+    public R selectUserById(String token) {
+        User user = TokenUtil.getUserFromToken(token, jedisCore);
+        if (user!=null) {
+            return R.ok(userDao.selectUserById(user.getId()));
+        }
+       return R.error("查询失败");
     }
 
     /**
@@ -213,18 +233,18 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public R updatePassword(String email, String password) {
-        System.out.println(email);
-        User user = userDao.selectUserByEmail(email);
-        System.out.println(user);
+    public R updatePassword(String token,String email, String password) {
+        User user = TokenUtil.getUserFromToken(token, jedisCore);
         if (user != null) {
-            MailUtils.sendMail("957162996@qq.com", "你好，这是一封测试邮件，无需回复。", "测试邮件随机生成的验证码是：" + MailUtils.getValidateCode(6));
-            int changepwd = userDao.changepwd(email, password);
+            int changepwd = userDao.changepwd(email, EncryptUtil.aesenc(key, password));
+            jedisCore.del(RedisKeyConfig.TOKEN_USER+token);
+            jedisCore.del(RedisKeyConfig.EMAIL_TOKEN+email);
             return R.ok("修改密码成功");
         }
         return R.error("请重新登录");
 
     }
+
 
     /**
      * 通过邮箱查询用户
@@ -232,8 +252,12 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public R selectUserByEmail(String email) {
-        return R.ok(userDao.selectUserByEmail(email));
+    public R selectUserByEmail(String token) {
+        User user = TokenUtil.getUserFromToken(token, jedisCore);
+        if (user!= null) {
+            return R.ok(userDao.selectUserByEmail(user.getEmail()));
+        }
+       return R.error("查询失败");
     }
 
     /**

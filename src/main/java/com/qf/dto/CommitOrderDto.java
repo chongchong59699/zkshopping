@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class CommitOrderDto {
    private String order_id;  //后台拿
-   private Integer user_id;
+   private Integer user_id;//不要 token查
    private String buyer_message;
    private String buyer_nickname;  //后台数据库查询
    //private Integer status; //不要
@@ -21,6 +21,7 @@ public class CommitOrderDto {
    private Integer goods_num;
    private Double total_fee;
    private String goods_id;
+   private String token;
 
 
 

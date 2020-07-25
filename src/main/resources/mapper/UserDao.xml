@@ -9,7 +9,7 @@
 
     <!-- 根据用户登录账号修改密码 -->
     <update id="updatePassword">
-        update user set password=#{password} where phone=#{account} or email=#{account}
+        update user set password=#{password} where email=#{account}
     </update>
 	
 	<select id="selectUserById" resultType="com.qf.pojo.User">

@@ -27,6 +27,20 @@
         </collection>
     </resultMap>
 
+    <resultMap id="GoodsListMap" type="com.qf.dto.GoodsDto">
+        <id column="id" property="id"/>
+        <result column="goods_code" property="goods_code"/>
+        <result column="img_id" property="img_id"/>
+        <result column="url" property="url"/>
+        <result column="name" property="name"/>
+        <result column="slogan" property="slogan"/>
+        <result column="price" property="price"/>
+        <result column="discount" property="discount"/>
+        <result column="score" property="score"/>
+        <result column="size" property="size"/>
+        <result column="color" property="color"/>
+    </resultMap>
+
     <sql id="SELECT_GOODS_FIELDS">
         SELECT g.id
              , g.goods_code
@@ -75,7 +89,7 @@
         ORDER BY lev1.`id`, lev2.`id`, lev3.`id`
     </select>
 
-    <select id="queryGoodsByFirstLevel" resultMap="BaseResultMap">
+    <select id="queryGoodsByFirstLevel" resultMap="GoodsListMap">
         <include refid="SELECT_GOODS_FIELDS"/>
         , lev1.`id`   AS 'lev1_id'
         , lev1.`name` AS 'lev1_name'
@@ -84,7 +98,7 @@
         <include refid="JOIN_TABLE"/>
         ORDER BY lev1.`id`, g.`id`
     </select>
-    <select id="queryGoodsBySecondLevel" resultMap="BaseResultMap">
+    <select id="queryGoodsBySecondLevel" resultMap="GoodsListMap">
         <include refid="SELECT_GOODS_FIELDS"/>
         , lev2.`id`   AS 'lev2_id'
         , lev2.`name` AS 'lev2_name'
@@ -93,7 +107,7 @@
         <include refid="JOIN_TABLE"/>
         ORDER BY lev2.`id`, g.`id`
     </select>
-    <select id="queryGoodsByThirdLevel" resultMap="BaseResultMap">
+    <select id="queryGoodsByThirdLevel" resultMap="GoodsListMap">
         <include refid="SELECT_GOODS_FIELDS"/>
         , lev3.`id`   AS 'lev3_id'
         , lev3.`name` AS 'lev3_name'
