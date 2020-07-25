@@ -38,6 +38,7 @@ public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoServic
             return R.ok(dao.insert(receiverAddressInfo));
         }else {
             return R.error("请重新登录后再试");
+
         }
 
     }
@@ -48,7 +49,9 @@ public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoServic
         if (user!=null) {
             return R.ok(dao.update(receiverAddressInfo));
         }
-        return R.error("修改失败");
+
+       return R.error("修改失败");
+
     }
 
     @Override
@@ -68,7 +71,9 @@ public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoServic
         if(user!=null){
             return R.ok(dao.selectById(id));
         }else {
+
             return R.error("请重新登录");
+
         }
 
     }
