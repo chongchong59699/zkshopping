@@ -15,11 +15,11 @@
     </insert>
 
     <update id="update">
-        UPDATE receiver_address_info SET province = #{province},city=#{city},detailed_address=#{detailed_address},zip_code=#{zip_code},receiver_name=#{receiver_name},phone=#{phone} WHERE id =#{id}
+        UPDATE receiver_address_info SET province = #{province},city=#{city},detailed_address=#{detailed_address},zip_code=#{zip_code},receiver_name=#{receiver_name},phone=#{phone} WHERE id =#{id} and user_id=#{user_id}
     </update>
 
     <delete id="delete">
-        delete from receiver_address_info where id = #{id}
+        delete from receiver_address_info where id = #{id} and user_id=#{userId}
     </delete>
 
 

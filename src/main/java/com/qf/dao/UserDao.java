@@ -48,7 +48,7 @@ public interface UserDao {
     int insertUser(User user);
 
     /**
-     * 根据用户手机号或者邮箱查询
+     * 根据用户邮箱查询
      *
      * @param account 用户登录账号
      * @return

@@ -12,6 +12,14 @@ import com.qf.vo.R;
 public interface UserService {
 
     /**
+     * 校验手机号
+     *
+     * @param phone 手机号
+     * @return
+     */
+    R checkPhone(String phone);
+
+    /**
      * 校验邮箱
      *
      * @param email 邮箱
@@ -43,10 +51,10 @@ public interface UserService {
      */
     R findPassword(FindPassUserDto findPassUserDto);
 
-    R selectUserById(String token,int id);
+    R selectUserById(String token);
 
     R updatePassword(String token,String email, String password);
-    R selectUserByEmail(String token,String email);
+    R selectUserByEmail(String token);
 
     /**
      * 判断注册时是否发过验证码
@@ -63,4 +71,5 @@ public interface UserService {
      * @return
      */
     R getEmailCode(String email);
+
 }
