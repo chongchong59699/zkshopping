@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoService {
-   @Autowired
+    @Autowired
     private ReceiverAddressInfoDao dao;
-   @Autowired
-   private JedisCore jedisCore;
+    @Autowired
+    private JedisCore jedisCore;
 
     @Override
     public R selectByUid(String token) {
@@ -37,7 +37,8 @@ public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoServic
             receiverAddressInfo.setUser_id(user.getId());
             return R.ok(dao.insert(receiverAddressInfo));
         }else {
-            return R.error("添加失败");
+            return R.error("请重新登录后再试");
+
         }
 
     }
@@ -49,7 +50,9 @@ public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoServic
             receiverAddressInfo.setUser_id(user.getId());
             return R.ok(dao.update(receiverAddressInfo));
         }
+
        return R.error("修改失败");
+
     }
 
     @Override
@@ -69,7 +72,9 @@ public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoServic
         if(user!=null){
             return R.ok(dao.selectById(id));
         }else {
+
             return R.error("请重新登录");
+
         }
 
     }
