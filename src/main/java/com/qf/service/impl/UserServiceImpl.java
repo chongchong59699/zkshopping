@@ -36,6 +36,21 @@ public class UserServiceImpl implements UserService {
     @Value("${zkwg.aes.passkey}")
     private String key;
 
+    /**
+     * 校验手机号
+     * @param phone 手机号
+     * @return
+     */
+    @Override
+    public R checkPhone(String phone) {
+        User user = userDao.selectUserByPhone(phone);
+        if (user != null){
+            return R.error("该手机号已注册！");
+        } else {
+            return R.ok();
+        }
+
+    }
 
 
     /**
@@ -64,7 +79,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public R addUser(RegisterUserDto registerUserDto) {
         // 检查该用户是否已经注册
-        if (checkEmail(registerUserDto.getEmail()).getCode() == 200){
+        if (checkEmail(registerUserDto.getEmail()).getCode() == 200
+                && checkPhone(registerUserDto.getPhone()).getCode() == 200){
 
             // 判断验证码是否发送成功
             if (jedisCore.checkKey(RedisKeyConfig.CODE_REGISTER + registerUserDto.getEmail())){
@@ -96,7 +112,7 @@ public class UserServiceImpl implements UserService {
 
         } else {
 
-            return R.error("该邮箱已经注册");
+            return R.error("该邮箱或手机号已经注册");
         }
 
     }
