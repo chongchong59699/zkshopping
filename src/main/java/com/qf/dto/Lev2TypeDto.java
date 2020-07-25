@@ -16,4 +16,5 @@ public class Lev2TypeDto {
     private String name;
 
     private List<Lev3TypeDto> lev3TypeDtoList;
+    private List<GoodsDto> goodsDtoList;
 }

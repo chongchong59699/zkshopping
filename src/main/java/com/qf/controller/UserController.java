@@ -83,9 +83,9 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "查询用户通过用户编号", notes = "查询用户通过用户编号")
-    @PostMapping("selectUserById/{id}")
-    public R selectUserById(HttpServletRequest request,@PathVariable int id) {
-        return userService.selectUserById(request.getHeader(SystemConstant.TOKEN_HEADER),id);
+    @PostMapping("selectUserById")
+    public R selectUserById(HttpServletRequest request) {
+        return userService.selectUserById(request.getHeader(SystemConstant.TOKEN_HEADER));
     }
 	
 	/**
@@ -105,10 +105,10 @@ public class UserController {
      * @param email
      * @return
      */
-    @ApiOperation(value = "通过邮箱查询用户",notes = "通过邮箱查询用户" )
-    @PostMapping("selectUserByEmail/{email}")
-    public R selectUserByEmail(HttpServletRequest request,@PathVariable String email) {
-        return userService.selectUserByEmail(request.getHeader(SystemConstant.TOKEN_HEADER), email);
+    @ApiOperation(value = "通过邮箱查询用户", notes = "通过邮箱查询用户")
+    @PostMapping("selectUserByEmail")
+    public R selectUserByEmail(HttpServletRequest request) {
+        return userService.selectUserByEmail(request.getHeader(SystemConstant.TOKEN_HEADER));
 }
 
     /**
