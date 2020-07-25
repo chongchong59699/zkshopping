@@ -31,6 +31,6 @@ public interface OrderDao {
             "where `status`=1 and id= #{out_trade_no}")
     int updateOrderStatus(@Param("out_trade_no") String out_trade_no,@Param("gmt_create") String gmt_create,@Param("gmt_payment") String gmt_payment);
 
-    @Select("select * from user_order where id= #{orderId} ")
-    Map<String,Object> getOrderByOrderId(String orderId);
+    @Select("select * from user_order where id= #{orderId} and user_id= #{userId}")
+    Map<String,Object> getOrderByOrderId(@Param("orderId") String orderId,@Param("userId")int userId);
 }

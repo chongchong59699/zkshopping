@@ -16,8 +16,8 @@ public interface OrderService {
 
     R addOrder(CommitOrderDto cod);
 
-    R getOrdersByUserId(int userid);
+    R getOrdersByUserId(String token);
     void notifyUrl(HttpServletRequest request) throws Exception;
 
-    R getOrderByOrderId(String orderId);
+    R getOrderByOrderId(String orderId,String token);
 }

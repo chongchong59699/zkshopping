@@ -5,7 +5,10 @@ import com.alipay.api.internal.util.AlipaySignature;
 import com.qf.config.AlipayConfig;
 import com.qf.dao.OrderDao;
 import com.qf.dto.CommitOrderDto;
+import com.qf.pojo.User;
 import com.qf.service.OrderService;
+import com.qf.util.JedisCore;
+import com.qf.util.TokenUtil;
 import com.qf.vo.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,14 +28,22 @@ import java.util.Map;
 public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderDao orderDao;
+    @Autowired
+    private JedisCore jedisCore;
     @Override
     public R addOrder(CommitOrderDto cod) {
         return R.ok(orderDao.addOrder(cod));
     }
 
     @Override
-    public R getOrdersByUserId(int userid) {
-        return R.ok(orderDao.getOrdersByUserId(userid));
+    public R getOrdersByUserId(String token) {
+        User user = TokenUtil.getUserFromToken(token, jedisCore);
+        if(user!=null) {
+            return R.ok(orderDao.getOrdersByUserId(user.getId()));
+        }else {
+            return R.error("请重新登录");
+        }
+
     }
 
     @Override
@@ -78,7 +89,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public R getOrderByOrderId(String orderId) {
-        return R.ok(orderDao.getOrderByOrderId(orderId));
+    public R getOrderByOrderId(String orderId,String token) {
+        User user = TokenUtil.getUserFromToken(token, jedisCore);
+        if(user!=null) {
+            return R.ok(orderDao.getOrderByOrderId(orderId, user.getId()));
+        }else {
+            return R.error("请重新登录");
+        }
     }
 }
