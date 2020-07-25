@@ -217,10 +217,10 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public R selectUserById(String toekn,int id) {
-        User user = TokenUtil.getUserFromToken(toekn, jedisCore);
+    public R selectUserById(String token) {
+        User user = TokenUtil.getUserFromToken(token, jedisCore);
         if (user!=null) {
-            return R.ok(userDao.selectUserById(id));
+            return R.ok(userDao.selectUserById(user.getId()));
         }
        return R.error("查询失败");
     }
@@ -236,7 +236,9 @@ public class UserServiceImpl implements UserService {
     public R updatePassword(String token,String email, String password) {
         User user = TokenUtil.getUserFromToken(token, jedisCore);
         if (user != null) {
-            int changepwd = userDao.changepwd(email, password);
+            int changepwd = userDao.changepwd(email, EncryptUtil.aesenc(key, password));
+            jedisCore.del(RedisKeyConfig.TOKEN_USER+token);
+            jedisCore.del(RedisKeyConfig.EMAIL_TOKEN+email);
             return R.ok("修改密码成功");
         }
         return R.error("请重新登录");
@@ -250,10 +252,10 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public R selectUserByEmail(String token,String email) {
+    public R selectUserByEmail(String token) {
         User user = TokenUtil.getUserFromToken(token, jedisCore);
         if (user!= null) {
-            return R.ok(userDao.selectUserByEmail(email));
+            return R.ok(userDao.selectUserByEmail(user.getEmail()));
         }
        return R.error("查询失败");
     }

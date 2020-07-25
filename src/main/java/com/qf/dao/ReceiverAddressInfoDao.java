@@ -1,6 +1,7 @@
 package com.qf.dao;
 
 import com.qf.pojo.ReceiverAddressInfo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,6 +14,8 @@ public interface ReceiverAddressInfoDao {
 
     int update(ReceiverAddressInfo receverAddressInfo);
 
-    int delete(int id);
-   ReceiverAddressInfo selectById(int id);
+    int delete(@Param("userId") int userId, @Param("id") int id);
+
+    ReceiverAddressInfo selectById(int id);
+
 }
