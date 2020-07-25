@@ -4,9 +4,9 @@ import com.qf.pojo.ReceiverAddressInfo;
 import com.qf.vo.R;
 
 public interface ReceiverAddressInfoService {
-    R selectByUid(int uid);
-    R insert(ReceiverAddressInfo receverAddressInfo);
-    R updateAddress(ReceiverAddressInfo receverAddressInfo);
-    R delete(int id);
-    R selectById(int id);
+    R selectByUid(String token,int uid);
+    R insert(String token,ReceiverAddressInfo receverAddressInfo);
+    R updateAddress(String token,ReceiverAddressInfo receverAddressInfo);
+    R delete(String token,int id);
+    R selectById(String token,int id);
 }

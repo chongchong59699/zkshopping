@@ -11,10 +11,11 @@ public class ShopServiceImpl implements ShopService {
     @Autowired
     private ShopDao dao;
 
-    //获取所有商品信息
+
+
     @Override
-    public R queryAll() {
-        return R.ok(dao.queryAll());
+    public R queryByStoreId(Integer storeId) {
+        return R.ok(dao.queryByStoreId(storeId));
     }
 
     @Override
