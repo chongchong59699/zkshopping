@@ -22,5 +22,10 @@ public class GoodsDto {
     private String size;
     private String color;
 
+    /**
+     * 新增商品所属商店信息映射
+     */
+    private String store_name;
+
     private Lev3TypeDto lev3TypeDto;
 }
