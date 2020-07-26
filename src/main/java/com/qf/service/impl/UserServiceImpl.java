@@ -163,9 +163,9 @@ public class UserServiceImpl implements UserService {
             if (isError){
 
                 // 判断10分钟内错误次数
-                if (jedisCore.keys(RedisKeyConfig.EMAIL_ERROR + loginUserDto.getEmail()) == 2){
+                if (jedisCore.keys(RedisKeyConfig.EMAIL_ERROR + loginUserDto.getEmail() + "*") == 2){
                     // 冻结账号，设置冻结时间，默认30分钟
-                    jedisCore.set(RedisKeyConfig.EMAIL_TOKEN + loginUserDto.getEmail(), System.currentTimeMillis()+"",RedisKeyConfig.TOKENFOR_TIME);
+                    jedisCore.set(RedisKeyConfig.EMAIL_FOR + loginUserDto.getEmail(), System.currentTimeMillis()+"",RedisKeyConfig.TOKENFOR_TIME);
                 }
 
                 // 记录本次错误，10分钟内错误3次，冻结账号10分钟
@@ -294,11 +294,42 @@ public class UserServiceImpl implements UserService {
             MailUtils.sendMail(email, "您已提交找回密码，这是您的验证码：" + code,
                     "找回密码申请");
 
-            jedisCore.set(RedisKeyConfig.CODE_FINDPASS + email, code, 5*60);
+            jedisCore.set(RedisKeyConfig.CODE_FINDPASS + email, code, 2*60);
 
             return R.ok("验证码发送成功");
         } else {
             return R.ok("验证码已经发送");
         }
+    }
+
+    /**
+     * 验证用户登录是否超过有效期
+     *
+     * @param userToken token
+     * @return
+     */
+    @Override
+    public R checkToken(String userToken) {
+        return R.ok();
+    }
+
+    /**
+     * 退出登录
+     *
+     * @param userToken token
+     * @return
+     */
+    @Override
+    public R loginOut(String userToken) {
+        if (!StringUtil.checkEmpty(userToken)){
+            User user = JSON.parseObject(jedisCore.get(RedisKeyConfig.TOKEN_USER + userToken), User.class);
+            jedisCore.del(RedisKeyConfig.EMAIL_TOKEN + user.getEmail());
+            jedisCore.del(RedisKeyConfig.TOKEN_USER + userToken);
+
+            return R.ok();
+        } else {
+            return R.error("请传递令牌");
+        }
+
     }
 }
