@@ -36,10 +36,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public R getOrdersByUserId(String token) {
+    public R getOrdersByUserId(String token,int status) {
         User user = TokenUtil.getUserFromToken(token, jedisCore);
         if(user!=null) {
-            return R.ok(orderDao.getOrdersByUserId(user.getId()));
+            return R.ok(orderDao.getOrdersByUserId(user.getId(),status));
         }else {
             return R.error("请重新登录");
         }

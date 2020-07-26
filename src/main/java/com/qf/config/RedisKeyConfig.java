@@ -36,7 +36,7 @@ public class RedisKeyConfig {
     public static final String CODE_FINDPASS="zkwg:code:findPass:";
 
     //有效期  seconds
-    public static final int TOKEN_TIME=30*60; //令牌有效期 单位秒
+    public static final int TOKEN_TIME=30*600; //令牌有效期 单位秒
     public static final int TOKENFOR_TIME=30*60; //冻结账号 单位秒
     public static final int PHONERROR_TIME=10*60; //错误的有效期 单位秒
 }
