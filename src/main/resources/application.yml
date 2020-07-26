@@ -3,3 +3,7 @@ server:
 spring:
   profiles:
     active: dev
+
+logging:
+  level:
+    io.swagger.models.parameters.AbstractSerializableParameter: error

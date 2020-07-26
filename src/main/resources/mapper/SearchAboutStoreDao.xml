@@ -7,7 +7,9 @@
 select
     zkwg.goods.id,zkwg.goods.goods_code,zkwg.goods.img_id,zkwg.goods.name,zkwg.goods.price,zkwg.goods.discount,zkwg.goods.store_id,zkwg.goods.third_level_id,zkwg.goods.slogan,zkwg.goods.description,zkwg.goods.score,zkwg.goods.comment_id,zkwg.goods.storage_num,zkwg.goods.size,zkwg.goods.color
 from
-    zkwg.goods,zkwg.store where zkwg.goods.store_id = zkwg.store.store_id
+    zkwg.goods,zkwg.store
+where
+    zkwg.goods.store_id = zkwg.store.store_id
 and
     zkwg.store.store_id = #{store_id}
 and
@@ -16,7 +18,7 @@ and
 
 <select id="selectGoodsInStoreByKey2" resultType="java.util.HashMap">
 select
-    zkwg.goods.id as goods_id,zkwg.goods.price,zkwg.imgs.url,zkwg.goods.name as goods_name
+    zkwg.store.store_name,zkwg.goods.store_id,zkwg.goods.id as goods_id,zkwg.goods.price,zkwg.imgs.url,zkwg.goods.name as goods_name
 from
     zkwg.goods,zkwg.imgs,zkwg.store
 where
@@ -31,13 +33,30 @@ and
 
 <select id="selectGoodsByName" resultType="java.util.HashMap">
 select
-    zkwg.goods.id as goods_id,zkwg.goods.price,zkwg.imgs.url,zkwg.goods.name as goods_name
+    zkwg.store.store_name,zkwg.goods.store_id,zkwg.goods.store_id,zkwg.goods.id as goods_id,zkwg.goods.price,zkwg.imgs.url,zkwg.goods.name as goods_name
 from
-    zkwg.goods,zkwg.imgs
+    zkwg.goods,zkwg.imgs,zkwg.store
 where
+    zkwg.goods.store_id=zkwg.store.store_id 
+and
     zkwg.goods.img_id = zkwg.imgs.id
 and
     zkwg.goods.name like concat('%',#{key},'%')
+</select>
+
+<select id="searchByTypeId" resultType="java.util.HashMap">
+select
+    zkwg.store.store_name,zkwg.goods.store_id,zkwg.goods.id as goods_id,zkwg.goods.price,zkwg.imgs.url,zkwg.goods.name as goods_name
+from
+    zkwg.goods,zkwg.third_level_type,zkwg.imgs,zkwg.store
+where
+    zkwg.goods.img_id = zkwg.imgs.id
+and
+    zkwg.goods.store_id=zkwg.store.store_id
+and
+    zkwg.goods.third_level_id = zkwg.third_level_type.id
+and
+    zkwg.third_level_type.second_level_id = #{typeId};
 </select>
 
 
