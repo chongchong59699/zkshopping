@@ -57,4 +57,10 @@ public class SearchController {
         return searchService.searchStore(key);
     }
 
+    @ApiOperation(value = "通过三级分类中的二级typeID表查询商品信息",notes = "通过三级分类表查询商品的详细信息")
+    @GetMapping("searchByTypeId")
+    public R searchByTypeId(Integer typeId){
+        return searchService.searchByTypeId(typeId);
+    }
+
 }

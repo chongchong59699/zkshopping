@@ -40,6 +40,19 @@ and
     zkwg.goods.name like concat('%',#{key},'%')
 </select>
 
+<select id="searchByTypeId" resultType="java.util.HashMap">
+select
+    zkwg.goods.id as goods_id,zkwg.goods.price,zkwg.imgs.url,zkwg.goods.name as goods_name
+from
+    zkwg.goods,zkwg.third_level_type,zkwg.imgs
+where
+    zkwg.goods.img_id = zkwg.imgs.id
+and
+    zkwg.goods.third_level_id = zkwg.third_level_type.id
+and
+    zkwg.third_level_type.second_level_id = #{typeId};
+</select>
+
 
 
 
