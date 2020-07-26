@@ -14,6 +14,32 @@ and
     zkwg.goods.name like concat('%',#{searchKey},'%')
 </select>
 
+<select id="selectGoodsInStoreByKey2" resultType="java.util.HashMap">
+select
+    zkwg.goods.id as goods_id,zkwg.goods.price,zkwg.imgs.url,zkwg.goods.name as goods_name
+from
+    zkwg.goods,zkwg.imgs,zkwg.store
+where
+    zkwg.store.store_id = zkwg.goods.store_id
+and
+    zkwg.goods.img_id = zkwg.imgs.id
+and
+    zkwg.store.store_id = #{store_id}
+and
+    zkwg.goods.name like concat('%',#{searchKey},'%');
+</select>
+
+<select id="selectGoodsByName" resultType="java.util.HashMap">
+select
+    zkwg.goods.id as goods_id,zkwg.goods.price,zkwg.imgs.url,zkwg.goods.name as goods_name
+from
+    zkwg.goods,zkwg.imgs
+where
+    zkwg.goods.img_id = zkwg.imgs.id
+and
+    zkwg.goods.name like concat('%',#{key},'%')
+</select>
+
 
 
 
