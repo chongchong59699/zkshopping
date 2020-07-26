@@ -25,9 +25,11 @@ public class ReceiverAddressInfoController {
      * @return
      */
     @ApiOperation(value = "通过用户编号查询收货地址" ,notes = "通过用户编号查询收货地址")
-    @PostMapping("selectByUid/{uid}")
-    public R selectByUid(HttpServletRequest request, @PathVariable int uid) {
-        return service.selectByUid(request.getHeader(SystemConstant.TOKEN_HEADER), uid);
+    @PostMapping("selectByUid")
+    public R selectByUid(HttpServletRequest request) {
+        System.out.println(request);
+        String token=request.getHeader(SystemConstant.TOKEN_HEADER);
+        return service.selectByUid(request.getHeader(SystemConstant.TOKEN_HEADER));
     }
 
     /**

@@ -4,6 +4,7 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.qf.annotation.TokenValidate;
 import com.qf.config.AlipayConfig;
+import com.qf.constant.SystemConstant;
 import com.qf.dto.CommitOrderDto;
 import com.qf.pojo.AlipayBean;
 import com.qf.service.OrderService;
@@ -34,6 +35,7 @@ public class OrderController {
 
     /**
      * 下单
+     *
      * @param out_trade_no
      * @param subject
      * @param total_amount
@@ -49,17 +51,19 @@ public class OrderController {
                 .setBody(body)
                 .setOut_trade_no(out_trade_no)
                 .setTotal_amount(new StringBuffer().append(total_amount))
-                .setSubject(subject),cod);
-    }@ApiOperation(value = "查询所有订单信息根据用户id")
-    @GetMapping(value = "getOrdersByUserId/{userId}")
-    public R getOrdersByUserId(@PathVariable int userId){
-        return orderService.getOrdersByUserId(userId);
+                .setSubject(subject), cod);
+    }
+
+    @ApiOperation(value = "查询所有订单信息根据用户Token")
+    @GetMapping(value = "getOrdersByUserToken/{status}")
+    public R getOrdersByUserToken(HttpServletRequest request,@PathVariable int status) {
+        return orderService.getOrdersByUserId(request.getHeader(SystemConstant.TOKEN_HEADER),status);
     }
 
     @ApiOperation(value = "查询订单信息根据订单id")
     @GetMapping(value = "getOrderByOrderId/{orderId}")
-    public R getOrderByOrderId(@PathVariable String orderId){
-        return orderService.getOrderByOrderId(orderId);
+    public R getOrderByOrderId(@PathVariable String orderId,HttpServletRequest request) {
+        return orderService.getOrderByOrderId(orderId,request.getHeader(SystemConstant.TOKEN_HEADER));
     }
 
     /**

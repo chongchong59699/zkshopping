@@ -23,14 +23,19 @@ public interface OrderDao {
             "VALUES (#{order_id} ,#{user_id} ,#{goods_id} ,#{buyer_message},#{buyer_nickname} ,1,2,#{send_method} ,#{receiver_addr_id} ,#{goods_num} ,#{total_fee} ,#{total_fee})")
     int addOrder(CommitOrderDto cod);
 
-    @Select("SELECT * FROM user_order WHERE user_id=#{userid} ")
-    List<Map<String,Object>> getOrdersByUserId(int userid);
+    @Select("SELECT * FROM user_order  " +
+            "LEFT JOIN goods " +
+            "ON user_order.`goods_id`=goods.`id` " +
+            "LEFT JOIN imgs " +
+            "ON goods.`img_id`=imgs.`id`"+
+            "WHERE user_id=#{userid} and status= #{status} ")
+    List<Map<String,Object>> getOrdersByUserId(@Param("userid") int userid,@Param("status") int status);
 
     @Update("update user_order   " +
             "set `status`=2,create_time=#{gmt_create},payment_time=#{gmt_payment}  " +
             "where `status`=1 and id= #{out_trade_no}")
     int updateOrderStatus(@Param("out_trade_no") String out_trade_no,@Param("gmt_create") String gmt_create,@Param("gmt_payment") String gmt_payment);
 
-    @Select("select * from user_order where id= #{orderId} ")
-    Map<String,Object> getOrderByOrderId(String orderId);
+    @Select("select * from user_order where id= #{orderId} and user_id= #{userId}")
+    Map<String,Object> getOrderByOrderId(@Param("orderId") String orderId,@Param("userId")int userId);
 }
