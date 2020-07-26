@@ -18,4 +18,6 @@ public interface SearchService {
     R searchStore(String key);
 
     R getStoreById(Integer storeId);
+
+    R searchByTypeId(Integer typeId);
 }

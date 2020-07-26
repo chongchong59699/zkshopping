@@ -72,4 +72,20 @@ public interface UserService {
      */
     R getEmailCode(String email);
 
+    /**
+     * 验证用户登录是否超过有效期
+     *
+     * @param userToken token
+     * @return
+     */
+    R checkToken(String userToken);
+
+
+    /**
+     * 退出登录
+     *
+     * @param userToken token
+     * @return
+     */
+    R loginOut(String userToken);
 }

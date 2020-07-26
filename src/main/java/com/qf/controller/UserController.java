@@ -1,5 +1,6 @@
 package com.qf.controller;
 
+import com.qf.annotation.TokenValidate;
 import com.qf.constant.SystemConstant;
 import com.qf.dto.FindPassUserDto;
 import com.qf.dto.LoginUserDto;
@@ -73,7 +74,7 @@ public class UserController {
      */
     @ApiOperation(value = "找回密码", notes = "找回密码")
     @PostMapping("findPassword")
-    public R findPassword(FindPassUserDto findPassUserDto){
+    public R findPassword(@RequestBody FindPassUserDto findPassUserDto){
         return userService.findPassword(findPassUserDto);
     }
 	
@@ -133,6 +134,32 @@ public class UserController {
     @PostMapping("getEmailCode/{email}")
     public R getEmailCode(@PathVariable String email){
         return userService.getEmailCode(email);
+    }
+
+    /**
+     * 验证用户登录是否超过有效期
+     *
+     * @param request 请求消息头
+     * @return
+     */
+    @TokenValidate
+    @ApiOperation(value = "验证登录有效期", notes = "验证登录有效期")
+    @GetMapping("checkUserToken")
+    public R checkUserToken(HttpServletRequest request){
+        return userService.checkToken(request.getHeader(SystemConstant.TOKEN_HEADER));
+    }
+
+    /**
+     * 退出登录
+     *
+     * @param request 请求消息头
+     * @return
+     */
+    @ApiOperation(value = "退出账号", notes = "退出账号")
+    @GetMapping("loginOut")
+    public R loginOut(HttpServletRequest request){
+
+        return userService.loginOut(request.getHeader(SystemConstant.TOKEN_HEADER));
     }
 
 }
