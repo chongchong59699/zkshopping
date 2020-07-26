@@ -22,6 +22,7 @@
                     <result column="score" property="score"/>
                     <result column="size" property="size"/>
                     <result column="color" property="color"/>
+                    <result column="store_name" property="store_name"/>
                 </collection>
             </collection>
         </collection>
@@ -39,6 +40,7 @@
         <result column="score" property="score"/>
         <result column="size" property="size"/>
         <result column="color" property="color"/>
+        <result column="store_name" property="store_name"/>
     </resultMap>
 
     <sql id="SELECT_GOODS_FIELDS">
@@ -53,13 +55,14 @@
              , g.score
              , g.size
              , g.color
+             , s.store_name
     </sql>
 
     <sql id="JOIN_TABLE">
-        LEFT JOIN third_level_type AS lev3
-                ON lev3.`id` = g.`third_level_id`
-                        LEFT JOIN second_level_type AS lev2 ON lev2.`id` = lev3.`second_level_id`
-                        LEFT JOIN first_level_type AS lev1 ON lev1.`id` = lev2.`first_level_id`
+        LEFT JOIN store AS s ON g.`store_id` = s.`store_id`
+        LEFT JOIN third_level_type AS lev3 ON lev3.`id` = g.`third_level_id`
+        LEFT JOIN second_level_type AS lev2 ON lev2.`id` = lev3.`second_level_id`
+        LEFT JOIN first_level_type AS lev1 ON lev1.`id` = lev2.`first_level_id`
     </sql>
 
     <select id="queryAllGoods" resultMap="BaseResultMap">

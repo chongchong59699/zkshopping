@@ -33,6 +33,12 @@ public class SearchController {
         return searchService.getStoreByName(storeName);
     }
 
+    @ApiOperation(value = "通过商店ID获取商店信息",notes = "通过商店ID获取商店信息，用于展示商店详情")
+    @GetMapping("getStoreById/{storeId}")
+    public R getStoreById(@PathVariable("storeId") Integer storeId){
+        return searchService.getStoreById(storeId);
+    }
+
     @ApiOperation(value = "通过关键字在店铺内搜索商品",notes = "通过关键字在店铺内搜索商品，主要用于商品搜索中的搜索商家")
     @PostMapping("searchGoodsInStore")
     public R searchGoodsInStore(@RequestBody SearchGoodsInStoreDto searchGoodsInStoreDto){
@@ -49,6 +55,12 @@ public class SearchController {
     @GetMapping("searchStores")
     public R searchStores(String key){
         return searchService.searchStore(key);
+    }
+
+    @ApiOperation(value = "通过三级分类中的二级typeID表查询商品信息",notes = "通过三级分类表查询商品的详细信息")
+    @GetMapping("searchByTypeId")
+    public R searchByTypeId(Integer typeId){
+        return searchService.searchByTypeId(typeId);
     }
 
 }

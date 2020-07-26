@@ -16,4 +16,8 @@ public interface SearchService {
     R searchGoods(String key);
 
     R searchStore(String key);
+
+    R getStoreById(Integer storeId);
+
+    R searchByTypeId(Integer typeId);
 }
