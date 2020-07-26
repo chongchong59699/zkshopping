@@ -34,4 +34,6 @@ public interface SearchDao {
     List<Map<String, Object>> selectGoodsByName(String key);
 
     List<Map<String, Object>> selectGoodsInStoreByKey2(SearchGoodsInStoreDto searchGoodsInStoreDto);
+
+    List<Map<String, Object>> searchByTypeId(Integer typeId);
 }
