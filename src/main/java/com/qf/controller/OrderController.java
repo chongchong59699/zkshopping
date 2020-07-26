@@ -55,9 +55,9 @@ public class OrderController {
     }
 
     @ApiOperation(value = "查询所有订单信息根据用户Token")
-    @GetMapping(value = "getOrdersByUserToken")
-    public R getOrdersByUserToken(HttpServletRequest request) {
-        return orderService.getOrdersByUserId(request.getHeader(SystemConstant.TOKEN_HEADER));
+    @GetMapping(value = "getOrdersByUserToken/{status}")
+    public R getOrdersByUserToken(HttpServletRequest request,@PathVariable int status) {
+        return orderService.getOrdersByUserId(request.getHeader(SystemConstant.TOKEN_HEADER),status);
     }
 
     @ApiOperation(value = "查询订单信息根据订单id")
