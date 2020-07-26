@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: zkshopping
@@ -45,7 +46,7 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public R searchGoodsInStore(SearchGoodsInStoreDto searchGoodsInStoreDto) {
-        List<Goods> goodsInStoreByKey = searchDao.selectGoodsInStoreByKey(searchGoodsInStoreDto);
+        List<Map<String,Object>> goodsInStoreByKey = searchDao.selectGoodsInStoreByKey2(searchGoodsInStoreDto);
         if (goodsInStoreByKey != null) {
             return R.ok(goodsInStoreByKey);
         }
@@ -55,7 +56,7 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public R searchGoods(String key) {
         if (key != null && !key.equals("")) {
-            List<Goods> goods = searchDao.selectGoodsByName(key);
+            List<Map<String,Object>> goods = searchDao.selectGoodsByName(key);
             return R.ok(goods);
         }
         return R.error("暂时找不到该商品");
@@ -68,5 +69,15 @@ public class SearchServiceImpl implements SearchService {
             return R.ok(stores);
         }
         return R.error("该店铺不存在");
+    }
+
+    @Override
+    public R getStoreById(Integer storeId) {
+        if (storeId != null) {
+            Store store = searchDao.getStoreById(storeId);
+            return R.ok(store);
+        }
+        return R.error("商店id为空");
+
     }
 }
