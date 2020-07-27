@@ -21,9 +21,9 @@ public interface GoodsInfoDao {
 
     List<Lev1TypeDto> queryGoodsType();
 
-    List<GoodsDto> queryGoodsByFirstLevel();
+    List<GoodsDto> queryGoodsByFirstLevel(Integer id);
 
-    List<GoodsDto> queryGoodsBySecondLevel();
+    List<GoodsDto> queryGoodsBySecondLevel(Integer id);
 
-    List<GoodsDto> queryGoodsByThirdLevel();
+    List<GoodsDto> queryGoodsByThirdLevel(Integer id);
 }

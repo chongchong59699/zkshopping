@@ -54,8 +54,8 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
      * @return
      */
     @Override
-    public R queryGoodsByFirstLevel() {
-        List<GoodsDto> lev1TypeDtoList = dao.queryGoodsByFirstLevel();
+    public R queryGoodsByFirstLevel(Integer id) {
+        List<GoodsDto> lev1TypeDtoList = dao.queryGoodsByFirstLevel(id);
         if (lev1TypeDtoList.size() > 0) {
             return R.ok(lev1TypeDtoList);
         }
@@ -67,8 +67,8 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
      * @return
      */
     @Override
-    public R queryGoodsBySecondLevel() {
-        List<GoodsDto> lev2TypeDtoList = dao.queryGoodsBySecondLevel();
+    public R queryGoodsBySecondLevel(Integer id) {
+        List<GoodsDto> lev2TypeDtoList = dao.queryGoodsBySecondLevel(id);
         if (lev2TypeDtoList.size() > 0) {
             return R.ok(lev2TypeDtoList);
         }
@@ -80,8 +80,8 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
      * @return
      */
     @Override
-    public R queryGoodsByThirdLevel() {
-        List<GoodsDto> lev3TypeDtoList = dao.queryGoodsByThirdLevel();
+    public R queryGoodsByThirdLevel(Integer id) {
+        List<GoodsDto> lev3TypeDtoList = dao.queryGoodsByThirdLevel(id);
         if (lev3TypeDtoList.size() > 0) {
             return R.ok(lev3TypeDtoList);
         }
