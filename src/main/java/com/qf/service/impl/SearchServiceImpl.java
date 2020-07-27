@@ -7,6 +7,7 @@ import com.qf.pojo.Goods;
 import com.qf.pojo.Store;
 import com.qf.service.SearchService;
 import com.qf.vo.R;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -79,5 +80,11 @@ public class SearchServiceImpl implements SearchService {
         }
         return R.error("商店id为空");
 
+    }
+
+    @Override
+    public R searchByTypeId(Integer typeId) {
+        List<Map<String,Object>> goodsByType = searchDao.searchByTypeId(typeId);
+        return R.ok(goodsByType);
     }
 }
