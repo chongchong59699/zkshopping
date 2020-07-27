@@ -4,6 +4,7 @@ import com.qf.util.JedisCore;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import redis.clients.jedis.JedisPoolConfig;
 
 /**
  * @ClassName: JedisConfig
@@ -21,7 +22,13 @@ public class JedisConfig {
     private String pass;
 
     @Bean
-    public JedisCore createJC(){
-        return new JedisCore(host,port,pass);
+    public JedisCore createJC() {
+        // 1、设置连接池的配置对象
+        JedisPoolConfig config = new JedisPoolConfig();
+        // 设置池中最大的连接数量（可选）
+        config.setMaxTotal(50);
+        // 设置空闲时池中保有的最大连接数（可选）
+        config.setMaxIdle(10);
+        return new JedisCore(config,host, port, pass);
     }
 }

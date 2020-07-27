@@ -12,6 +12,7 @@ import com.qf.service.PayService;
 import com.qf.service.UserService;
 import com.qf.util.AlipayUtil;
 import com.qf.util.JedisCore;
+import com.qf.util.JedisUtil;
 import com.qf.util.TokenUtil;
 import com.qf.vo.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,14 @@ public class PayServiceImpl implements PayService {
     private UserDao userDao;
     @Autowired
     private OrderDao orderDao;
-    @Autowired
-    private JedisCore jedisCore;
+//    @Autowired
+//    private JedisCore jedisCore;
+    //private JedisCore jedisCore= JedisUtil.getJedisCore();
 
     @Override
     public String aliPay(AlipayBean alipayBean, CommitOrderDto cod) throws AlipayApiException {
 
-        User user = TokenUtil.getUserFromToken(cod.getToken(), jedisCore);
+        User user = TokenUtil.getUserFromToken(cod.getToken(), JedisUtil.getJedisCore());
         if (user != null) {
             //User user=userDao.selectUserById(cod.getUser_id());
 
