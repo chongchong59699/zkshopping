@@ -2,6 +2,7 @@ package com.qf.util;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 /**
  * @ClassName: JedisCore
@@ -12,12 +13,16 @@ import redis.clients.jedis.JedisPool;
 public class JedisCore {
     private Jedis jedis;
 
-    public JedisCore(String host,int port,String pass) {
-        JedisPool jedisPool = new JedisPool(host,port);
-        jedis=jedisPool.getResource();
-        if(pass.length()!=0){//如果密码长度不为0  则添加连接密码
-            jedis.auth(pass);
-        }
+    public JedisCore(Jedis jedis) {
+        this.jedis = jedis;
+    }
+
+    public JedisCore(JedisPoolConfig config, String host, int port, String pass) {
+//        JedisPool jedisPool = new JedisPool(config,host,port);
+//        jedis=jedisPool.getResource();
+//        if(pass.length()!=0){//如果密码长度不为0  则添加连接密码
+//            jedis.auth(pass);
+//        }
 
 
     }
