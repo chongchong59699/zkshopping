@@ -39,7 +39,7 @@ public class ReceiverAddressInfoController {
      */
     @ApiOperation(value = "添加收货地址",notes = "添加收货地址")
     @PostMapping("insert")
-    public R insert(HttpServletRequest request, ReceiverAddressInfo receverAddressInfo) {
+    public R insert(HttpServletRequest request,@RequestBody ReceiverAddressInfo receverAddressInfo) {
         return service.insert(request.getHeader(SystemConstant.TOKEN_HEADER),receverAddressInfo);
     }
 
@@ -50,7 +50,7 @@ public class ReceiverAddressInfoController {
      */
     @ApiOperation(value = "修改收货地址",notes = "修改收货地址")
     @PostMapping("updateAddress")
-    public R updateAddress(HttpServletRequest request, ReceiverAddressInfo receverAddressInfo) {
+    public R updateAddress(HttpServletRequest request,@RequestBody ReceiverAddressInfo receverAddressInfo) {
         return service.updateAddress(request.getHeader(SystemConstant.TOKEN_HEADER), receverAddressInfo);
     }
 

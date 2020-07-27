@@ -14,9 +14,9 @@ public interface GoodsInfoService {
 
     R queryTypeLevel();
 
-    R queryGoodsByFirstLevel();
+    R queryGoodsByFirstLevel(Integer id);
 
-    R queryGoodsBySecondLevel();
+    R queryGoodsBySecondLevel(Integer id);
 
-    R queryGoodsByThirdLevel();
+    R queryGoodsByThirdLevel(Integer id);
 }

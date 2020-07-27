@@ -27,7 +27,7 @@ public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoServic
         if (user != null) {
             return R.ok(dao.selectByUid(user.getId()));
         } else {
-            return R.error("查询失败");
+            return R.error("查询失败,请重新查询");
         }
 
     }
