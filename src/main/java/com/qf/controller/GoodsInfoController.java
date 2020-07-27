@@ -45,30 +45,30 @@ public class GoodsInfoController {
      * 一级分类商品信息
      * @return
      */
-    @ApiOperation(value = "查询一级分类商品信息", notes = "首页展示的商品信息（一级分类+包含的商品）")
+    @ApiOperation(value = "id查询一级分类商品信息", notes = "首页展示的商品信息（一级分类+包含的商品）")
     @GetMapping("/lev1goods")
-    public R queryGoodsByFirstLevel() {
-        return service.queryGoodsByFirstLevel();
+    public R queryGoodsByFirstLevel(Integer id) {
+        return service.queryGoodsByFirstLevel(id);
     }
 
     /**
      * 二级分类商品信息
      * @return
      */
-    @ApiOperation(value = "查询二级分类商品信息", notes = "首页展示的商品信息（二级分类+包含的商品）")
+    @ApiOperation(value = "id查询二级分类商品信息", notes = "首页展示的商品信息（二级分类+包含的商品）")
     @GetMapping("/lev2goods")
-    public R queryGoodsBySecondLevel() {
-        return service.queryGoodsBySecondLevel();
+    public R queryGoodsBySecondLevel(Integer id) {
+        return service.queryGoodsBySecondLevel(id);
     }
 
     /**
      * 三级分类商品信息
      * @return
      */
-    @ApiOperation(value = "查询三级分类商品信息", notes = "首页展示的商品信息（三级分类+包含的商品）")
+    @ApiOperation(value = "id查询三级分类商品信息", notes = "首页展示的商品信息（三级分类+包含的商品）")
     @GetMapping("/lev3goods")
-    public R queryGoodsByThirdLevel() {
-        return service.queryGoodsByThirdLevel();
+    public R queryGoodsByThirdLevel(Integer id) {
+        return service.queryGoodsByThirdLevel(id);
     }
 
 }
