@@ -27,8 +27,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private JedisCore jedisCore;
+//    @Autowired
+//    private JedisCore jedisCore;
+
+    //private JedisCore jedisCore=JedisUtil.getJedisCore();
 
     /**
      * 秘钥
@@ -83,9 +85,9 @@ public class UserServiceImpl implements UserService {
                 && checkPhone(registerUserDto.getPhone()).getCode() == 200){
 
             // 判断验证码是否发送成功
-            if (jedisCore.checkKey(RedisKeyConfig.CODE_REGISTER + registerUserDto.getEmail())){
+            if (JedisUtil.getJedisCore().checkKey(RedisKeyConfig.CODE_REGISTER + registerUserDto.getEmail())){
 
-                String code = jedisCore.get(RedisKeyConfig.CODE_REGISTER + registerUserDto.getEmail());
+                String code = JedisUtil.getJedisCore().get(RedisKeyConfig.CODE_REGISTER + registerUserDto.getEmail());
 
                 // 验证用户输入的验证码与发送的验证码是否一致
                 if (code.equals(registerUserDto.getCode())){
@@ -127,12 +129,12 @@ public class UserServiceImpl implements UserService {
     public R userLogin(LoginUserDto loginUserDto) {
 
         // 校验该用户是否被冻结
-        if (jedisCore.checkKey(RedisKeyConfig.EMAIL_FOR + loginUserDto.getEmail())){
+        if (JedisUtil.getJedisCore().checkKey(RedisKeyConfig.EMAIL_FOR + loginUserDto.getEmail())){
 
-            return R.error("您的账号已被冻结，请" + jedisCore.ttl(RedisKeyConfig.EMAIL_FOR +
+            return R.error("您的账号已被冻结，请" + JedisUtil.getJedisCore().ttl(RedisKeyConfig.EMAIL_FOR +
                     loginUserDto.getEmail()) + "秒之后登录");
 
-        } else if(jedisCore.checkKey(RedisKeyConfig.EMAIL_TOKEN + loginUserDto.getEmail())){
+        } else if(JedisUtil.getJedisCore().checkKey(RedisKeyConfig.EMAIL_TOKEN + loginUserDto.getEmail())){
 
             return R.error("您的账号已经登录啦");
         } else {
@@ -148,9 +150,9 @@ public class UserServiceImpl implements UserService {
                     String token = TokenUtil.createToken(user.getId());
 
                     // 存储用户账号信息
-                    jedisCore.set(RedisKeyConfig.EMAIL_TOKEN + loginUserDto.getEmail(), token, RedisKeyConfig.TOKEN_TIME);
+                    JedisUtil.getJedisCore().set(RedisKeyConfig.EMAIL_TOKEN + loginUserDto.getEmail(), token, RedisKeyConfig.TOKEN_TIME);
                     // 存储user信息
-                    jedisCore.set(RedisKeyConfig.TOKEN_USER + token, JSON.toJSONString(user), RedisKeyConfig.TOKEN_TIME);
+                    JedisUtil.getJedisCore().set(RedisKeyConfig.TOKEN_USER + token, JSON.toJSONString(user), RedisKeyConfig.TOKEN_TIME);
 
                     // 登录成功
                     isError = false;
@@ -163,13 +165,13 @@ public class UserServiceImpl implements UserService {
             if (isError){
 
                 // 判断10分钟内错误次数
-                if (jedisCore.keys(RedisKeyConfig.EMAIL_ERROR + loginUserDto.getEmail() + "*") == 2){
+                if (JedisUtil.getJedisCore().keys(RedisKeyConfig.EMAIL_ERROR + loginUserDto.getEmail() + "*") == 2){
                     // 冻结账号，设置冻结时间，默认30分钟
-                    jedisCore.set(RedisKeyConfig.EMAIL_FOR + loginUserDto.getEmail(), System.currentTimeMillis()+"",RedisKeyConfig.TOKENFOR_TIME);
+                    JedisUtil.getJedisCore().set(RedisKeyConfig.EMAIL_FOR + loginUserDto.getEmail(), System.currentTimeMillis()+"",RedisKeyConfig.TOKENFOR_TIME);
                 }
 
                 // 记录本次错误，10分钟内错误3次，冻结账号10分钟
-                jedisCore.set(RedisKeyConfig.EMAIL_TOKEN + loginUserDto.getEmail() + ":" + System.currentTimeMillis() , "", RedisKeyConfig.PHONERROR_TIME);
+                JedisUtil.getJedisCore().set(RedisKeyConfig.EMAIL_TOKEN + loginUserDto.getEmail() + ":" + System.currentTimeMillis() , "", RedisKeyConfig.PHONERROR_TIME);
             }
         }
 
@@ -186,9 +188,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public R findPassword(FindPassUserDto findPassUserDto) {
         // 判断修改密码时是否发送了验证码
-        if (jedisCore.checkKey(RedisKeyConfig.CODE_FINDPASS + findPassUserDto.getEmail())){
+        if (JedisUtil.getJedisCore().checkKey(RedisKeyConfig.CODE_FINDPASS + findPassUserDto.getEmail())){
 
-            String code = jedisCore.get(RedisKeyConfig.CODE_FINDPASS + findPassUserDto.getEmail());
+            String code = JedisUtil.getJedisCore().get(RedisKeyConfig.CODE_FINDPASS + findPassUserDto.getEmail());
 
             // 判断验证码是否与发送的邮箱验证码一致
             if (code.equals(findPassUserDto.getCode())){
@@ -213,12 +215,12 @@ public class UserServiceImpl implements UserService {
 	 /**
      * 查看用户信息
      *
-     * @param id
+     * @param token
      * @return
      */
     @Override
     public R selectUserById(String token) {
-        User user = TokenUtil.getUserFromToken(token, jedisCore);
+        User user = TokenUtil.getUserFromToken(token, JedisUtil.getJedisCore());
         if (user!=null) {
             return R.ok(userDao.selectUserById(user.getId()));
         }
@@ -234,11 +236,11 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public R updatePassword(String token,String email, String password) {
-        User user = TokenUtil.getUserFromToken(token, jedisCore);
+        User user = TokenUtil.getUserFromToken(token, JedisUtil.getJedisCore());
         if (user != null) {
-            int changepwd = userDao.changepwd(email, EncryptUtil.aesenc(key, password));
-            jedisCore.del(RedisKeyConfig.TOKEN_USER+token);
-            jedisCore.del(RedisKeyConfig.EMAIL_TOKEN+email);
+            userDao.changepwd(email, EncryptUtil.aesenc(key, password));
+            JedisUtil.getJedisCore().del(RedisKeyConfig.TOKEN_USER+token);
+            JedisUtil.getJedisCore().del(RedisKeyConfig.EMAIL_TOKEN+email);
             return R.ok("修改密码成功");
         }
         return R.error("请重新登录");
@@ -248,12 +250,12 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 通过邮箱查询用户
-     * @param email
+     * @param token
      * @return
      */
     @Override
     public R selectUserByEmail(String token) {
-        User user = TokenUtil.getUserFromToken(token, jedisCore);
+        User user = TokenUtil.getUserFromToken(token, JedisUtil.getJedisCore());
         if (user!= null) {
             return R.ok(userDao.selectUserByEmail(user.getEmail()));
         }
@@ -268,12 +270,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public R sendEmailCode(String email) {
-        if (!jedisCore.checkKey(RedisKeyConfig.CODE_REGISTER + email)){
+        if (!JedisUtil.getJedisCore().checkKey(RedisKeyConfig.CODE_REGISTER + email)){
             String code = getValidateCode(6);
             MailUtils.sendMail(email, "欢迎注册宅客微购，这是您的注册验证码：" + code,
                     "宅客微购注册验证码");
 
-            jedisCore.set(RedisKeyConfig.CODE_REGISTER + email, code, 5*60);
+            JedisUtil.getJedisCore().set(RedisKeyConfig.CODE_REGISTER + email, code, 5*60);
 
             return R.ok("验证码发送成功");
         } else {
@@ -289,12 +291,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public R getEmailCode(String email) {
-        if (!jedisCore.checkKey(RedisKeyConfig.CODE_FINDPASS + email)){
+        if (!JedisUtil.getJedisCore().checkKey(RedisKeyConfig.CODE_FINDPASS + email)){
             String code = getValidateCode(6);
             MailUtils.sendMail(email, "您已提交找回密码，这是您的验证码：" + code,
                     "找回密码申请");
 
-            jedisCore.set(RedisKeyConfig.CODE_FINDPASS + email, code, 2*60);
+            JedisUtil.getJedisCore().set(RedisKeyConfig.CODE_FINDPASS + email, code, 2*60);
 
             return R.ok("验证码发送成功");
         } else {
@@ -322,9 +324,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public R loginOut(String userToken) {
         if (!StringUtil.checkEmpty(userToken)){
-            User user = JSON.parseObject(jedisCore.get(RedisKeyConfig.TOKEN_USER + userToken), User.class);
-            jedisCore.del(RedisKeyConfig.EMAIL_TOKEN + user.getEmail());
-            jedisCore.del(RedisKeyConfig.TOKEN_USER + userToken);
+            User user = JSON.parseObject(JedisUtil.getJedisCore().get(RedisKeyConfig.TOKEN_USER + userToken), User.class);
+            JedisUtil.getJedisCore().del(RedisKeyConfig.EMAIL_TOKEN + user.getEmail());
+            JedisUtil.getJedisCore().del(RedisKeyConfig.TOKEN_USER + userToken);
 
             return R.ok();
         } else {

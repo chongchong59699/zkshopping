@@ -5,6 +5,8 @@ import com.qf.constant.SystemConstant;
 import com.qf.dto.FindPassUserDto;
 import com.qf.dto.LoginUserDto;
 import com.qf.dto.RegisterUserDto;
+import com.qf.dto.UpdateUserDto;
+import com.qf.pojo.User;
 import com.qf.service.UserService;
 import com.qf.vo.R;
 import io.swagger.annotations.ApiOperation;
@@ -162,4 +164,15 @@ public class UserController {
         return userService.loginOut(request.getHeader(SystemConstant.TOKEN_HEADER));
     }
 
+    /**
+     *修改用户信息
+     * @param request
+     * @param updateUserDto
+     * @return 
+	 */   
+  @ApiOperation(value = "修改用户信息", notes = "修改用户信息")
+  @PostMapping("updateUser")
+  public R updateUser(HttpServletRequest request, @RequestBody UpdateUserDto updateUserDto) {
+          return userService.updateUser(request.getHeader(SystemConstant.TOKEN_HEADER),updateUserDto);
+  }
 }
