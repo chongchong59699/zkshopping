@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.qf.dao.GoodsInfoDao">
+    <resultMap id="GoodsTypeMap" type="com.qf.dto.Lev1TypeDto">
+        <id column="lev1_id" property="id"/>
+        <result column="lev1_name" property="name"/>
+        <collection property="lev2TypeDtoList" ofType="com.qf.dto.Lev2TypeDto">
+            <id column="lev2_id" property="id"/>
+            <result column="lev2_name" property="name"/>
+            <collection property="lev3TypeDtoList" ofType="com.qf.dto.Lev3TypeDto">
+                <id column="lev3_id" property="id"/>
+                <result column="lev3_name" property="name"/>
+            </collection>
+        </collection>
+    </resultMap>
+
     <resultMap id="BaseResultMap" type="com.qf.dto.Lev1TypeDto">
         <id column="lev1_id" property="id"/>
         <result column="lev1_name" property="name"/>
@@ -23,6 +36,9 @@
                     <result column="size" property="size"/>
                     <result column="color" property="color"/>
                     <result column="store_name" property="store_name"/>
+                    <result column="lev1_id" property="lev1_id"/>
+                    <result column="lev2_id" property="lev2_id"/>
+                    <result column="lev3_id" property="lev3_id"/>
                 </collection>
             </collection>
         </collection>
@@ -41,6 +57,9 @@
         <result column="size" property="size"/>
         <result column="color" property="color"/>
         <result column="store_name" property="store_name"/>
+        <result column="lev1_id" property="lev1_id"/>
+        <result column="lev2_id" property="lev2_id"/>
+        <result column="lev3_id" property="lev3_id"/>
     </resultMap>
 
     <sql id="SELECT_GOODS_FIELDS">
@@ -59,14 +78,16 @@
     </sql>
 
     <sql id="JOIN_TABLE">
-        LEFT JOIN store AS s ON g.`store_id` = s.`store_id`
-        LEFT JOIN third_level_type AS lev3 ON lev3.`id` = g.`third_level_id`
-        LEFT JOIN second_level_type AS lev2 ON lev2.`id` = lev3.`second_level_id`
-        LEFT JOIN first_level_type AS lev1 ON lev1.`id` = lev2.`first_level_id`
+        LEFT JOIN store AS s
+                ON g.`store_id` = s.`store_id`
+                        LEFT JOIN third_level_type AS lev3 ON lev3.`id` = g.`third_level_id`
+                        LEFT JOIN second_level_type AS lev2 ON lev2.`id` = lev3.`second_level_id`
+                        LEFT JOIN first_level_type AS lev1 ON lev1.`id` = lev2.`first_level_id`
     </sql>
 
     <select id="queryAllGoods" resultMap="BaseResultMap">
         <include refid="SELECT_GOODS_FIELDS"/>
+
         , lev3.id   AS lev3_id
         , lev3.name AS lev3_name
         , lev2.id   AS lev2_id
@@ -75,11 +96,12 @@
         , lev1.name AS lev1_name
                 FROM goods AS g
                 LEFT JOIN imgs ON imgs.`id` = g.`img_id`
+
         <include refid="JOIN_TABLE"/>
         ORDER BY lev1.`id`, lev2.`id`, lev3.`id`, g.`id`
     </select>
 
-    <select id="queryGoodsType" resultMap="BaseResultMap">
+    <select id="queryGoodsType" resultMap="GoodsTypeMap">
         SELECT lev3.`id`   AS 'lev3_id'
              , lev3.`name` AS 'lev3_name'
              , lev2.`id`   AS 'lev2_id'
@@ -99,24 +121,32 @@
                 FROM goods AS g
                 LEFT JOIN imgs ON imgs.`id` = g.`img_id`
         <include refid="JOIN_TABLE"/>
+        where lev1.id = #{id,jdbcType=INTEGER}
         ORDER BY lev1.`id`, g.`id`
     </select>
+
     <select id="queryGoodsBySecondLevel" resultMap="GoodsListMap">
         <include refid="SELECT_GOODS_FIELDS"/>
+
         , lev2.`id`   AS 'lev2_id'
         , lev2.`name` AS 'lev2_name'
                 FROM goods AS g
                 LEFT JOIN imgs ON imgs.`id` = g.`img_id`
+
         <include refid="JOIN_TABLE"/>
+        where lev2.id = #{id,jdbcType=INTEGER}
         ORDER BY lev2.`id`, g.`id`
     </select>
+
     <select id="queryGoodsByThirdLevel" resultMap="GoodsListMap">
         <include refid="SELECT_GOODS_FIELDS"/>
         , lev3.`id`   AS 'lev3_id'
         , lev3.`name` AS 'lev3_name'
                 FROM goods AS g
                 LEFT JOIN imgs ON imgs.`id` = g.`img_id`
+
         <include refid="JOIN_TABLE"/>
+        where lev3.id = #{id,jdbcType=INTEGER}
         ORDER BY lev3.`id`, g.`id`
     </select>
 </mapper>
