@@ -8,6 +8,7 @@ import com.qf.dto.CommitOrderDto;
 import com.qf.pojo.User;
 import com.qf.service.OrderService;
 import com.qf.util.JedisCore;
+import com.qf.util.JedisUtil;
 import com.qf.util.TokenUtil;
 import com.qf.vo.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,9 @@ import java.util.Map;
 public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderDao orderDao;
-    @Autowired
-    private JedisCore jedisCore;
+//    @Autowired
+//    private JedisCore jedisCore;
+    //private JedisCore jedisCore= JedisUtil.getJedisCore();
     @Override
     public R addOrder(CommitOrderDto cod) {
         return R.ok(orderDao.addOrder(cod));
@@ -37,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public R getOrdersByUserId(String token,int status) {
-        User user = TokenUtil.getUserFromToken(token, jedisCore);
+        User user = TokenUtil.getUserFromToken(token, JedisUtil.getJedisCore());
         if(user!=null) {
             return R.ok(orderDao.getOrdersByUserId(user.getId(),status));
         }else {
@@ -90,7 +92,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public R getOrderByOrderId(String orderId,String token) {
-        User user = TokenUtil.getUserFromToken(token, jedisCore);
+        User user = TokenUtil.getUserFromToken(token, JedisUtil.getJedisCore());
         if(user!=null) {
             return R.ok(orderDao.getOrderByOrderId(orderId, user.getId()));
         }else {
