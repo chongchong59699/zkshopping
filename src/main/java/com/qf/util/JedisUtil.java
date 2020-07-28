@@ -17,6 +17,10 @@ public class JedisUtil {
     private static int port = 6379;
     private static JedisPool jedisPool;
     static {
+
+    }
+
+    private static JedisPool getJedisPool(){
         // 1、设置连接池的配置对象
         JedisPoolConfig config = new JedisPoolConfig();
         // 设置池中最大的连接数量（可选）
@@ -24,13 +28,12 @@ public class JedisUtil {
         // 设置空闲时池中保有的最大连接数（可选）
         config.setMaxIdle(10);
         jedisPool= new JedisPool(config, host, port);
+        return  jedisPool;
     }
 
 
-
-
     public static JedisCore getJedisCore() {
-        Jedis jedis = jedisPool.getResource();
+        Jedis jedis = getJedisPool().getResource();
         System.out.println(jedis);
         return new JedisCore(jedis);
     }
