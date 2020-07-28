@@ -137,6 +137,12 @@
             <version>4.10.58.ALL</version>
         </dependency>
 
+<!--        &lt;!&ndash; 鉴权 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-security</artifactId>-->
+<!--        </dependency>-->
+
     </dependencies>
 
     <build>
