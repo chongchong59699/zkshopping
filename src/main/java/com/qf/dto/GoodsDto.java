@@ -27,5 +27,12 @@ public class GoodsDto {
      */
     private String store_name;
 
+    /**
+     * 同时拥有三级分类的 id 用于vue渲染
+     */
+    private Integer lev1_id;
+    private Integer lev2_id;
+    private Integer lev3_id;
+
     private Lev3TypeDto lev3TypeDto;
 }

@@ -23,4 +23,7 @@
     <update id="changepwd" >
         update user set password=#{password} where email = #{email}
     </update>
+    <update id="updateUser">
+        update user set username=#{username},nickname=#{nickname},img_url=#{img_url},gender=#{gender},birthday=#{birthday} where id = #{id}
+    </update>
 </mapper>
