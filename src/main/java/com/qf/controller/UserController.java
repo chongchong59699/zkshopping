@@ -82,7 +82,7 @@ public class UserController {
 	
 	/**
      * 通过用户编号查询用户
-     * @param id
+     * @param request
      * @return
      */
     @ApiOperation(value = "查询用户通过用户编号", notes = "查询用户通过用户编号")
@@ -105,7 +105,7 @@ public class UserController {
 
     /**
      * 通过邮箱查询用户
-     * @param email
+     * @param request
      * @return
      */
     @ApiOperation(value = "通过邮箱查询用户", notes = "通过邮箱查询用户")
