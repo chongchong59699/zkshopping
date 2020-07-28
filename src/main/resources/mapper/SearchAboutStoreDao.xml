@@ -56,7 +56,7 @@ and
 and
     zkwg.goods.third_level_id = zkwg.third_level_type.id
 and
-    zkwg.third_level_type.second_level_id = #{typeId};
+    zkwg.third_level_type.id = #{typeId};
 </select>
 
 
