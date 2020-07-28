@@ -4,7 +4,7 @@ import com.qf.dto.FindPassUserDto;
 import com.qf.dto.LoginUserDto;
 import com.qf.dto.RegisterUserDto;
 
-import com.qf.pojo.User;
+import com.qf.dto.UpdateUserDto;
 import com.qf.vo.R;
 
 /**
@@ -89,4 +89,12 @@ public interface UserService {
      * @return
      */
     R loginOut(String userToken);
+
+    /**
+     * 更新用户信息
+     * @param token
+     * @param updateUserDto
+     * @return
+     */
+    R updateUser(String token, UpdateUserDto updateUserDto);
 }
