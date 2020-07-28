@@ -324,14 +324,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public R loginOut(String userToken) {
         if (!StringUtil.checkEmpty(userToken)){
-            User user = JSON.parseObject(JedisUtil.getJedisCore().get(RedisKeyConfig.TOKEN_USER + userToken), User.class);
-            JedisUtil.getJedisCore().del(RedisKeyConfig.EMAIL_TOKEN + user.getEmail());
-            JedisUtil.getJedisCore().del(RedisKeyConfig.TOKEN_USER + userToken);
 
-            return R.ok();
+            if(JedisUtil.getJedisCore().checkKey(RedisKeyConfig.TOKEN_USER + userToken)){
+
+                User user = JSON.parseObject(JedisUtil.getJedisCore().get(RedisKeyConfig.TOKEN_USER + userToken), User.class);
+                JedisUtil.getJedisCore().del(RedisKeyConfig.EMAIL_TOKEN + user.getEmail());
+                JedisUtil.getJedisCore().del(RedisKeyConfig.TOKEN_USER + userToken);
+
+                return R.ok();
+            } else {
+                return R.error("令牌已失效");
+            }
+
         } else {
             return R.error("请传递令牌");
         }
-
     }
 }
