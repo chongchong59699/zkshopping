@@ -17,13 +17,13 @@ import org.springframework.stereotype.Service;
 public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoService {
     @Autowired
     private ReceiverAddressInfoDao dao;
-    //    @Autowired
-//    private JedisCore jedisCore;
+        @Autowired
+    private JedisCore jedisCore;
    // private JedisCore jedisCore = JedisUtil.getJedisCore();
 
     @Override
     public R selectByUid(String token) {
-        User user = TokenUtil.getUserFromToken(token, JedisUtil.getJedisCore());
+        User user = TokenUtil.getUserFromToken(token, jedisCore);
         if (user != null) {
             return R.ok(dao.selectByUid(user.getId()));
         } else {
@@ -34,8 +34,8 @@ public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoServic
 
     @Override
     public R insert(String token, ReceiverAddressInfo receiverAddressInfo) {
-        if (JedisUtil.getJedisCore().get(RedisKeyConfig.TOKEN_USER + token) != null) {
-            User user = JSON.parseObject(JedisUtil.getJedisCore().get(RedisKeyConfig.TOKEN_USER + token), User.class);
+        if (jedisCore.get(RedisKeyConfig.TOKEN_USER + token) != null) {
+            User user = JSON.parseObject(jedisCore.get(RedisKeyConfig.TOKEN_USER + token), User.class);
             receiverAddressInfo.setUser_id(user.getId());
             return R.ok(dao.insert(receiverAddressInfo));
         } else {
@@ -47,7 +47,7 @@ public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoServic
 
     @Override
     public R updateAddress(String token, ReceiverAddressInfo receiverAddressInfo) {
-        User user = TokenUtil.getUserFromToken(token, JedisUtil.getJedisCore());
+        User user = TokenUtil.getUserFromToken(token, jedisCore);
         if (user != null) {
             receiverAddressInfo.setUser_id(user.getId());
             return R.ok(dao.update(receiverAddressInfo));
@@ -59,7 +59,7 @@ public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoServic
 
     @Override
     public R delete(String token, int id) {
-        User user = TokenUtil.getUserFromToken(token, JedisUtil.getJedisCore());
+        User user = TokenUtil.getUserFromToken(token, jedisCore);
         if (user != null) {
             return R.ok(dao.delete(user.getId(), id));
         } else {
@@ -70,7 +70,7 @@ public class ReceiverAddressInfoServiceImpl implements ReceiverAddressInfoServic
 
     @Override
     public R selectById(String token, int id) {
-        User user = TokenUtil.getUserFromToken(token, JedisUtil.getJedisCore());
+        User user = TokenUtil.getUserFromToken(token, jedisCore);
         if (user != null) {
             return R.ok(dao.selectById(id));
         } else {

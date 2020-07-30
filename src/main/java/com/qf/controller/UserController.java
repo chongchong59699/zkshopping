@@ -85,6 +85,7 @@ public class UserController {
      * @param request
      * @return
      */
+    @TokenValidate
     @ApiOperation(value = "查询用户通过用户编号", notes = "查询用户通过用户编号")
     @PostMapping("selectUserById")
     public R selectUserById(HttpServletRequest request) {
@@ -97,6 +98,7 @@ public class UserController {
      * @param password
      * @return
      */
+    @TokenValidate
     @ApiOperation(value = "修改密码-任晓雨", notes = "通过邮箱修改密码")
     @PostMapping("changePassword/{password}")
     public R changePassword(HttpServletRequest request,String email, @PathVariable String password) {
@@ -108,6 +110,7 @@ public class UserController {
      * @param request
      * @return
      */
+    @TokenValidate
     @ApiOperation(value = "通过邮箱查询用户", notes = "通过邮箱查询用户")
     @PostMapping("selectUserByEmail")
     public R selectUserByEmail(HttpServletRequest request) {
@@ -157,6 +160,7 @@ public class UserController {
      * @param request 请求消息头
      * @return
      */
+    @TokenValidate
     @ApiOperation(value = "退出账号", notes = "退出账号")
     @GetMapping("loginOut")
     public R loginOut(HttpServletRequest request){
@@ -170,6 +174,7 @@ public class UserController {
      * @param updateUserDto
      * @return
      */
+    @TokenValidate
     @ApiOperation(value = "修改用户信息", notes = "修改用户信息")
     @PostMapping("updateUser")
     public R updateUser(HttpServletRequest request, @RequestBody UpdateUserDto updateUserDto) {
