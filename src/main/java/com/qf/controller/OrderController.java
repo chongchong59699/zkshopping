@@ -54,12 +54,14 @@ public class OrderController {
                 .setSubject(subject), cod);
     }
 
+    @TokenValidate
     @ApiOperation(value = "查询所有订单信息根据用户Token")
     @GetMapping(value = "getOrdersByUserToken/{status}")
     public R getOrdersByUserToken(HttpServletRequest request,@PathVariable int status) {
         return orderService.getOrdersByUserId(request.getHeader(SystemConstant.TOKEN_HEADER),status);
     }
 
+    @TokenValidate
     @ApiOperation(value = "查询订单信息根据订单id")
     @GetMapping(value = "getOrderByOrderId/{orderId}")
     public R getOrderByOrderId(@PathVariable String orderId,HttpServletRequest request) {

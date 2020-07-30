@@ -20,15 +20,14 @@ public class JedisConfig {
     private int port;
     @Value("${zkwg.redis.pass}")
     private String pass;
+    @Value("${zkwg.redis.maxTotal}")
+    private int maxTotal;
+    @Value("${zkwg.redis.maxIdle}")
+    private int maxIdle;
 
     @Bean
     public JedisCore createJC() {
-        // 1、设置连接池的配置对象
-        JedisPoolConfig config = new JedisPoolConfig();
-        // 设置池中最大的连接数量（可选）
-        config.setMaxTotal(50);
-        // 设置空闲时池中保有的最大连接数（可选）
-        config.setMaxIdle(10);
-        return new JedisCore(config,host, port, pass);
+
+        return new JedisCore(maxTotal,maxIdle,host, port, pass);
     }
 }
