@@ -29,8 +29,8 @@ import java.util.Map;
 public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderDao orderDao;
-//    @Autowired
-//    private JedisCore jedisCore;
+    @Autowired
+    private JedisCore jedisCore;
     //private JedisCore jedisCore= JedisUtil.getJedisCore();
     @Override
     public R addOrder(CommitOrderDto cod) {
@@ -39,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public R getOrdersByUserId(String token,int status) {
-        User user = TokenUtil.getUserFromToken(token, JedisUtil.getJedisCore());
+        User user = TokenUtil.getUserFromToken(token, jedisCore);
         if(user!=null) {
             return R.ok(orderDao.getOrdersByUserId(user.getId(),status));
         }else {
@@ -92,7 +92,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public R getOrderByOrderId(String orderId,String token) {
-        User user = TokenUtil.getUserFromToken(token, JedisUtil.getJedisCore());
+        User user = TokenUtil.getUserFromToken(token, jedisCore);
         if(user!=null) {
             return R.ok(orderDao.getOrderByOrderId(orderId, user.getId()));
         }else {

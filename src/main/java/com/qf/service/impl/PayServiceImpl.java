@@ -26,14 +26,14 @@ public class PayServiceImpl implements PayService {
     private UserDao userDao;
     @Autowired
     private OrderDao orderDao;
-//    @Autowired
-//    private JedisCore jedisCore;
-    //private JedisCore jedisCore= JedisUtil.getJedisCore();
+    @Autowired
+    private JedisCore jedisCore;
+    //private JedisCore jedisCore= jedisCore;
 
     @Override
     public String aliPay(AlipayBean alipayBean, CommitOrderDto cod) throws AlipayApiException {
 
-        User user = TokenUtil.getUserFromToken(cod.getToken(), JedisUtil.getJedisCore());
+        User user = TokenUtil.getUserFromToken(cod.getToken(), jedisCore);
         if (user != null) {
             //User user=userDao.selectUserById(cod.getUser_id());
 
